@@ -3,6 +3,8 @@ haxe-chip-8-emulator
 
 CHIP 8 Emulator written in HAXE/OpenFL
 
+Windows binary download: http://bit.ly/chip8emu
+
 Current state of development:
 - all chip-8 opcodes implemented
 - basic debug information
@@ -13,6 +15,8 @@ Current state of development:
 - plenty of public domain roms included
 - compiles only for NEKO/CPP
 - basic GUI for loading roms
+- original fontset as separate data file, ability to load custom fontset/bios
+- beep using wave sound file
 
 Future plans:
 - more advanced GUI
