@@ -27,8 +27,9 @@ class Chip8
 	var spc:Int = 0;
 	var spsTime:Float = 0;
 	public var beep:Bool = false;
-	public var sleep:Float = 0.016;
+	public var sleep:Float = 0.001;
 	var timerTime:Float = 0;
+	public var pause:Bool = false;
 	
 	// cpu
 	public var opcode:UInt = 0;
@@ -86,8 +87,13 @@ class Chip8
 	{
 		reset();
 		
+		if (filename == "") 
+			filename = "data/LOGO";
+		else
+			filename = "roms/" + filename;
+		
 		var fontset:ByteArray = Assets.getBytes("data/" + fontsetFilename);
-		var program:ByteArray = Assets.getBytes("roms/" + filename);
+		var program:ByteArray = Assets.getBytes(filename);
 		
 		memoryInject(fontset, 0);
 		memoryInject(program, 0x200);
@@ -146,6 +152,11 @@ class Chip8
 		timerTime = spsTime = lastTime = Timer.stamp();
 		
 		while (active) {
+			if (pause) {
+				Sys.sleep(0.1);
+				continue;
+			}
+			
 			// fetch opcode
 			opcode = memory[pc] << 8 | memory[pc + 1];
 		
