@@ -12,9 +12,10 @@ Current state of development:
 - no problems were detected running wide variety of roms so far
 - plenty of public domain roms included
 - compiles only for NEKO/CPP
+- basic GUI for loading roms
 
 Future plans:
-- GUI for loading roms
+- more advanced GUI
 - other targets support (Android/HTML5/Flash)
 
 Information sources and inspiration:

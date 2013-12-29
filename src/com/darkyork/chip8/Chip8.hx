@@ -59,6 +59,7 @@ class Chip8
 	public function reset()
 	{
 		active = false;
+		Sys.sleep(0.1); // wait for emulation to stop
 		opcode = 0x0000;
 		// reset index and program counter
 		I = 0;
@@ -83,7 +84,6 @@ class Chip8
 	
 	public function load(filename:String, fontsetFilename:String = "FONTSET")
 	{
-		active = false;
 		reset();
 		
 		var fontset:ByteArray = Assets.getBytes("data/" + fontsetFilename);

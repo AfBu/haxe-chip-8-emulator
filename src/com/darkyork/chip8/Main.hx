@@ -5,10 +5,12 @@ import flash.display.BitmapData;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.KeyboardEvent;
+import flash.events.MouseEvent;
 import flash.Lib;
 import flash.media.Sound;
 import flash.text.TextField;
 import openfl.Assets;
+import sys.FileSystem;
 
 /**
  * ...
@@ -21,6 +23,7 @@ class Main extends Sprite
 	var cpu:Chip8;
 	var display:Bitmap;
 	var debugText:TextField;
+	var roms:Array<String>;
 	
 	/* ENTRY POINT */
 	
@@ -35,8 +38,30 @@ class Main extends Sprite
 		if (inited) return;
 		inited = true;
 
+		roms = FileSystem.readDirectory("./roms/");
+		var ri:Int = 0;
+		for (r in roms) {
+			var rtf:TextField = new TextField();
+			rtf.text = r;
+			rtf.y = 256 + 4 + Math.floor(ri / 6) * 20;
+			rtf.x = (ri - Math.floor(ri / 6) * 6) * 85;
+			rtf.selectable = false;
+			rtf.width = 85;
+			rtf.height = 20;
+			rtf.addEventListener(MouseEvent.CLICK, function (e:MouseEvent) { 
+				cpu.stop();
+				cpu.load(rtf.text);
+				cpu.start();
+			} );
+			rtf.addEventListener(MouseEvent.MOUSE_OVER, function (e:MouseEvent) { rtf.textColor = 0xFFFFFF; } );
+			rtf.addEventListener(MouseEvent.MOUSE_OUT, function (e:MouseEvent) { rtf.textColor = 0xAAAAAA; } );
+			rtf.textColor = 0xAAAAAA;
+			addChild(rtf);
+			ri++;
+		}
+		
 		debugText = new TextField();
-		debugText.x = 512;
+		debugText.x = 512 + 4;
 		debugText.height = stage.stageHeight;
 		debugText.textColor = 0xFFFFFF;
 		debugText.text = "Emulator started";
