@@ -16,3 +16,7 @@ Current state of development:
 Future plans:
 - GUI for loading roms
 - other targets support (Android/HTML5/Flash)
+
+Information sources and inspiration:
+- http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/
+- http://devernay.free.fr/hacks/chip8/C8TECH10.HTM
