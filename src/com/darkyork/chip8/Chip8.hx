@@ -201,36 +201,71 @@ class Chip8
 			return;
 		}
 		
-		if (opcode == 0x0000) {
-			pc += 2;
-			return;
+		switch (opcode) // static opcodes (without parameters)
+		{
+			case 0x0000: // empty opcode, not considered as unknown, just continue
+			{
+				pc += 2;
+				return;
+			}
+			case 0x00E0: // 0x00E0: Clears the screen 
+			{
+				clearScreen();
+				pc += 2;
+				return;
+			}
+			case 0x00EE: // 0x00EE: Returns from subroutine  
+			{
+				--sp;
+				pc = stack[sp];
+				pc += 2;
+				return;
+			}
+			case 0x00FB: // [SUPER] scroll screen 4 pixels right
+			{
+				// to-do
+				pc += 2;
+				return;
+			}
+			case 0x00FC: // [SUPER] scroll screen 4 pixels left
+			{
+				// to-do
+				pc += 2;
+				return;
+			}
+			case 0x00FE: // [SUPER] disable extended screen mode
+			{
+				// to-do
+				pc += 2;
+				return;
+			}
+			case 0x00FF: // [SUPER] enable extended screen mode (128 x 64)
+			{
+				// to-do
+				pc += 2;
+				return;
+			}
 		}
 		
 		switch(opcode & 0xF000)
 		{    
-			case 0x0000: // special opcodes
+			case 0x0000: // screen codes
 			{
-				switch (opcode & 0x000F)
+				switch (opcode & 0x00F0) // superchip screen-shift opcodes
 				{
-					case 0x0000: // 0x00E0: Clears the screen 
+					case 0x00C0: // [SUPER] 00CN: scroll the screen down N lines
 					{
-						clearScreen();
+						// to-do
 						pc += 2;
+						return;
 					}
-					case 0x000E: // 0x00EE: Returns from subroutine  
-					{
-						--sp;
-						pc = stack[sp];
-						pc += 2;
-					}
-					default:
-						unknownOpcode();
 				}
 			}
 			
 			case 0x1000: // 1NNN: Jumps to address NNN
 			{
 				pc = opcode & 0x0FFF;
+				return;
 			}
 			
 			case 0x2000: // 2NNN: Calls subroutine at NNN.
@@ -238,6 +273,7 @@ class Chip8
 				stack[sp] = pc;
 				++sp;
 				pc = opcode & 0x0FFF;
+				return;
 			}
 			
 			case 0x3000: // 3XKK: Skip next instruction if Vx = kk.
@@ -246,6 +282,7 @@ class Chip8
 					pc += 4;
 				else
 					pc += 2;
+				return;
 			}
 			
 			case 0x4000: // 4XKK: Skip next instruction if Vx != kk.
@@ -254,6 +291,7 @@ class Chip8
 					pc += 4;
 				else
 					pc += 2;
+				return;
 			}
 			
 			case 0x5000: // 5XY0: Skip next instruction if Vx = Vy.
@@ -262,18 +300,21 @@ class Chip8
 					pc += 4;
 				else 
 					pc += 2;
+				return;
 			}
 			
 			case 0x6000: // 6XKK: Set Vx = kk.
 			{
 				V[(opcode & 0x0F00) >> 8] = opcode & 0x00FF;
 				pc += 2;
+				return;
 			}
 			
 			case 0x7000: // 7XKK: Set Vx = Vx + kk.
 			{
 				V[(opcode & 0x0F00) >> 8] = V[(opcode & 0x0F00) >> 8] + (opcode & 0x00FF);
 				pc += 2;
+				return;
 			}
 			
 			case 0x8000: // Registers subset
@@ -284,24 +325,28 @@ class Chip8
 					{
 						V[(opcode & 0x0F00) >> 8] = V[(opcode & 0x00F0) >> 4];
 						pc += 2;
+						return;
 					}
 					
 					case 0x0001: // 8XY1: Set Vx = Vx OR Vy.
 					{
 						V[(opcode & 0x0F00) >> 8] = V[(opcode & 0x0F00) >> 8] | V[(opcode & 0x00F0) >> 4];
 						pc += 2;
+						return;
 					}
 					
 					case 0x0002: // 8XY2: Set Vx = Vx AND Vy.
 					{
 						V[(opcode & 0x0F00) >> 8] = V[(opcode & 0x0F00) >> 8] & V[(opcode & 0x00F0) >> 4];
 						pc += 2;
+						return;
 					}
 					
 					case 0x0003: // 8XY3: Set Vx = Vx XOR Vy.
 					{
 						V[(opcode & 0x0F00) >> 8] = V[(opcode & 0x0F00) >> 8] ^ V[(opcode & 0x00F0) >> 4];
 						pc += 2;
+						return;
 					}
 					
 					case 0x0004: // 8XY4: Set Vx = Vx + Vy, set VF = carry.
@@ -312,6 +357,7 @@ class Chip8
 							V[0xF] = 0;					
 						V[(opcode & 0x0F00) >> 8] = V[(opcode & 0x0F00) >> 8] + V[(opcode & 0x00F0) >> 4];
 						pc += 2;
+						return;
 					}
 					
 					case 0x0005: // 8XY5: Set Vx = Vx - Vy, set VF = NOT borrow.
@@ -322,6 +368,7 @@ class Chip8
 							V[0xF] = 1;					
 						V[(opcode & 0x0F00) >> 8] = V[(opcode & 0x0F00) >> 8] - V[(opcode & 0x00F0) >> 4];
 						pc += 2;
+						return;
 					}
 					
 					case 0x0006: // 8XY6: Set Vx = Vx SHR 1.
@@ -329,6 +376,7 @@ class Chip8
 						V[0xF] = V[(opcode & 0x0F00) >> 8] & 0x1;
 						V[(opcode & 0x0F00) >> 8] = V[(opcode & 0x0F00) >> 8] >> 1;
 						pc += 2;
+						return;
 					}
 					
 					case 0x0007: // 8XY7: Set Vx = Vy - Vx, set VF = NOT borrow.
@@ -339,6 +387,7 @@ class Chip8
 							V[0xF] = 1;
 						V[(opcode & 0x0F00) >> 8] = V[(opcode & 0x00F0) >> 4] - V[(opcode & 0x0F00) >> 8];
 						pc += 2;
+						return;
 					}
 					
 					case 0x000E: // 8XYE: Set Vx = Vx SHL 1.
@@ -346,10 +395,8 @@ class Chip8
 						V[0xF] = V[(opcode & 0x0F00) >> 8] >> 7;
 						V[(opcode & 0x0F00) >> 8] = V[(opcode & 0x0F00) >> 8] << 1;
 						pc += 2;
+						return;
 					}
-					
-					default:
-						unknownOpcode();
 				}
 			}
 			
@@ -359,28 +406,43 @@ class Chip8
 					pc += 4;
 				else
 					pc += 2;
+				return;
 			}
 			
 			case 0xA000: // ANNN: Sets I to the address NNN
 			{	
 				I = opcode & 0x0FFF;
 				pc += 2;
+				return;
 			}
 			
 			case 0xB000: // BNNN: Jump to location nnn + V0.
 			{
 				pc = (opcode & 0x0FFF) + V[0];
+				return;
 			}
 			
 			case 0xC000: // CXKK: Set Vx = random byte AND kk.
 			{
 				V[(opcode & 0x0F00) >> 8] = Math.round(Math.random() * 0xFF) & (opcode & 0x00FF);
 				pc += 2;
+				return;
 			}
 			
-			case 0xD000: // DXYN: Display n-byte sprite starting at memory location I at (Vx, Vy), set VF = collision.
+			case 0xD000: // drawing opcodes
 			{
-				drawSprite();
+				switch (opcode & 0x000F) {
+					case 0x0000: // [SUPER] DXY0: Draws extended sprite at screen location rx,ry
+					{
+						drawExtendedSprite();
+						return;
+					}
+					default: // DXYN: Display n-byte sprite starting at memory location I at (Vx, Vy), set VF = collision.
+					{
+						drawSprite();
+						return;
+					}
+				}
 			}
 			
 			case 0xE000: // key input
@@ -393,6 +455,7 @@ class Chip8
 							pc += 4;
 						else
 							pc += 2;
+						return;
 					}
 					
 					case 0x00A1: // EXA1: Skip next instruction if key with the value of Vx is not pressed.
@@ -401,10 +464,8 @@ class Chip8
 							pc += 4;
 						else
 							pc += 2;
+						return;
 					}
-					
-					default:
-						unknownOpcode();
 				}
 			}
 			
@@ -415,6 +476,7 @@ class Chip8
 					{
 						V[(opcode & 0x0F00) >> 8] = delay_timer;
 						pc += 2;
+						return;
 					}
 					
 					case 0x000A: // FX0A: Wait for a key press, store the value of the key in Vx.
@@ -433,18 +495,21 @@ class Chip8
 							return;
 							
 						pc += 2;
+						return;
 					}
 					
 					case 0x0015: // FX15: Set delay timer = Vx.
 					{
 						delay_timer = V[(opcode & 0x0F00) >> 8];
 						pc += 2;
+						return;
 					}
 					
 					case 0x0018: // FX18: Set sound timer = Vx.
 					{
 						sound_timer = V[(opcode & 0x0F00) >> 8];
 						pc += 2;
+						return;
 					}
 					
 					case 0x001E: // FX1E: Set I = I + Vx.
@@ -456,12 +521,21 @@ class Chip8
 						I += V[(opcode & 0x0F00) >> 8];
 						if (I > 0xFFF) I -= 0xFFF; // there is no short so we have to do this shit
 						pc += 2;
+						return;
 					}
 					
 					case 0x0029: // Fx29: Set I = location of sprite for digit Vx.
 					{
 						I = V[(opcode & 0x0F00) >> 8] * 0x5;
 						pc += 2;
+						return;
+					}
+					
+					case 0x0030: // [SUPER] FX30: Set I = location of sprite for digit Vx. Font height is 10
+					{
+						I = V[(opcode & 0x0F00) >> 8] * 0xA;
+						pc += 2;
+						return;
 					}
 					
 					case 0x0033: // Fx33: Store BCD representation of Vx in memory locations I, I+1, and I+2.
@@ -471,6 +545,7 @@ class Chip8
 						memory[I + 2] = 		  (V[(opcode & 0x0F00) >> 8] % 100) % 10;
 						
 						pc += 2;
+						return;
 					}
 					
 					case 0x0055: // FX55: Store registers V0 through Vx in memory starting at location I.
@@ -480,6 +555,7 @@ class Chip8
 						}
 						I += V[(opcode & 0x0F00) >> 8] + 1;
 						pc += 2;
+						return;
 					}
 					
 					case 0x0065: // FX65: Read registers V0 through Vx from memory starting at location I.
@@ -489,16 +565,20 @@ class Chip8
 						}
 						I += ((opcode & 0x0F00) >> 8) + 1;
 						pc += 2;
+						return;
 					}
-					
-					default: 
-						unknownOpcode();
 				}
 			}
-				
-			default:
-				unknownOpcode();
-		}  
+		}
+		
+		unknownOpcode();
+	}
+	
+	public function drawExtendedSprite()
+	{
+		// to-do
+		drawFlag = true;			
+		pc += 2;
 	}
 	
 	public function drawSprite()
@@ -537,7 +617,7 @@ class Chip8
 	
 	public function unknownOpcode()
 	{
-		//trace("Unknown opcode: " + StringTools.hex(opcode));
+		trace("Unknown opcode: " + StringTools.hex(opcode));
 		pc += 2;
 	}
 	
