@@ -43,8 +43,8 @@ class Television extends Sprite
 		removeEventListener(Event.ADDED_TO_STAGE, init);
 		
 		overlay = new Bitmap(Assets.getBitmapData("data/tv.png"));
-		display = new Bitmap(new BitmapData(64, 32, false));
-		display.scaleX = display.scaleY = 8;
+		display = new Bitmap(new BitmapData(128, 64, false));
+		display.scaleX = display.scaleY = 4;
 		display.x = 96;
 		display.y = 170;
 
@@ -125,6 +125,10 @@ class Television extends Sprite
 			cpu.pause = false;
 			display.alpha = 1;
 		}
+		
+		// scale display based on mode
+		if (display.scaleX == 8 && cpu.extendedMode) display.scaleX = display.scaleY = 4;
+		if (display.scaleX == 4 && !cpu.extendedMode) display.scaleX = display.scaleY = 8;
 		
 		cpu.render(display.bitmapData);
 		

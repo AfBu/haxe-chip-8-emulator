@@ -30,6 +30,7 @@ class Chip8
 	public var sleep:Float = 0.001;
 	var timerTime:Float = 0;
 	public var pause:Bool = false;
+	public var extendedMode:Bool = false;
 	
 	// cpu
 	public var opcode:UInt = 0;
@@ -38,6 +39,7 @@ class Chip8
 	public var memory:ByteArray;
 	public var V:ByteArray;
 	public var gfx:ByteArray;
+	public var xgfx:ByteArray;
 	public var delay_timer:UInt = 0;
 	public var sound_timer:UInt = 0;
 	public var key:ByteArray;
@@ -49,7 +51,9 @@ class Chip8
 		memory = new ByteArray();
 		V = new ByteArray();
 		gfx = new ByteArray();
-		for (i in 0...2048) gfx.writeByte(0x00);
+		for (i in 0...(64 * 32)) gfx.writeByte(0x00);
+		xgfx = new ByteArray();
+		for (i in 0...(128 * 64)) xgfx.writeByte(0x00);
 		key = new ByteArray();
 		for (i in 0...16) key.writeByte(0x00);
 		stack = new Array<UInt>();
@@ -60,6 +64,7 @@ class Chip8
 	public function reset()
 	{
 		active = false;
+		extendedMode = false;
 		Sys.sleep(0.1); // wait for emulation to stop
 		opcode = 0x0000;
 		// reset index and program counter
@@ -107,7 +112,9 @@ class Chip8
 	
 	public function clearScreen()
 	{
+		// clear the screen is related to extended mode
 		for (i in 0...(64 * 32)) gfx[i] = 0x00;
+		for (i in 0...(128 * 64)) xgfx[i] = 0x00;
 		drawFlag = true;
 	}
 	
@@ -117,16 +124,18 @@ class Chip8
 		
 		drawFlag = false;
 		
+		screen.fillRect(new Rectangle(0, 0, screen.width, screen.height), 0x222222);
+		
 		var x:Int = 0;
 		var y:Int = 0;
-		gfx.position = 0;
-		while (gfx.position < gfx.length) {
-			if (gfx.readByte() > 0) {
+		(extendedMode ? xgfx : gfx).position = 0;
+		while ((extendedMode ? xgfx : gfx).position < (extendedMode ? xgfx : gfx).length) {
+			if ((extendedMode ? xgfx : gfx).readByte() > 0) {
 				screen.setPixel(x, y, 0xFFFFFF);
 			} else {
 				screen.setPixel(x, y, 0x222222);
 			}
-			if (++x == 64) {
+			if (++x == (extendedMode ? 128 : 64)) {
 				y++;
 				x = 0;
 			}
