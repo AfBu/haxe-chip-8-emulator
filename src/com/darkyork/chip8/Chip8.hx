@@ -237,8 +237,6 @@ class Chip8
 			}
 			case 0x00FB: // [SUPER] scroll screen 4 pixels right
 			{
-				trace("sr");
-				
 				var sw:UInt = (extendedMode ? 128 : 64);
 				var sh:UInt = (extendedMode ? 64 : 32);
 				
@@ -261,8 +259,6 @@ class Chip8
 			}
 			case 0x00FC: // [SUPER] scroll screen 4 pixels left
 			{
-				trace("sl");
-				
 				var sw:UInt = (extendedMode ? 128 : 64);
 				var sh:UInt = (extendedMode ? 64 : 32);
 				
@@ -669,6 +665,10 @@ class Chip8
 		var y:UInt = V[(opcode & 0x00F0) >> 4];
 		var pixel:UInt = 0;
 
+		// check position overflow
+		while (x > 128) x -= 64;
+		while (y > 64) y -= 64;
+		
 		V[0xF] = 0;
 		for (yline in 0...16)
 		{
@@ -709,7 +709,12 @@ class Chip8
 		var height:UInt = opcode & 0x000F;
 		var pixel:UInt = 0;
 		var sw:UInt = (extendedMode ? 128 : 64);
-
+		var sh:UInt = (extendedMode ? 64 : 32);
+		
+		// check position overflow
+		while (x > sw) x -= sw;
+		while (y > sh) y -= sh;
+		
 		V[0xF] = 0;
 		for (yline in 0...height)
 		{
