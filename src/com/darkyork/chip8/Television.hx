@@ -11,6 +11,7 @@ import flash.text.TextField;
 import flash.text.TextFieldType;
 import flash.text.TextFormat;
 import flash.text.TextFormatAlign;
+import haxe.Timer;
 import openfl.Assets;
 import sys.FileSystem;
 
@@ -30,6 +31,7 @@ class Television extends Sprite
 	public var currentRom:String = "";
 	public var keymap:Bitmap;
 	public var credits:Bitmap;
+	public var startLoader:Float = 5;
 	
 	public function new() 
 	{
@@ -61,7 +63,7 @@ class Television extends Sprite
 		var font:Font = Assets.getFont("data/NovaMono.ttf");
 
 		loader = new Menu();
-		//loader.visible = false;
+		loader.visible = false;
 		var ldTextFormat:TextFormat = new TextFormat(font.fontName, 14, 0xEEEEEE, false, false, false, "", "", TextFormatAlign.CENTER, 0, 0, 0, 0);
 		var ldTextFormatHover:TextFormat = new TextFormat(font.fontName, 14, 0xFFFFFF, true, false, false, "", "", TextFormatAlign.CENTER, 0, 0, 0, 0);
 		roms = FileSystem.readDirectory("./roms/");
@@ -89,7 +91,7 @@ class Television extends Sprite
 			ri++;
 		}
 		
-		trace(font.fontName);
+		//trace(font.fontName);
 		debugTextField = new TextField();
 		//debugTextField.type = TextFieldType.DYNAMIC;
 		debugTextField.defaultTextFormat = new TextFormat(font.fontName, 14, 0xFFFFFF, true, false, false, "", "", TextFormatAlign.LEFT, 0, 0, 0, 0);
@@ -107,6 +109,7 @@ class Television extends Sprite
 		addChild(debugTextField);
 		
 		cpu = new Chip8();
+		//cpu.sleep = 0.1;
 		cpu.load("");
 		cpu.start();
 		
@@ -117,6 +120,12 @@ class Television extends Sprite
 	
 	public function update(e:Event)
 	{
+		if (startLoader > 0) {
+			if (loader.visible) startLoader = 0;
+			startLoader -= Timer.stamp();
+			if (startLoader <= 0) loader.visible = true;
+		}
+		
 		if (loader.visible && !cpu.pause) {
 			cpu.pause = true;
 			display.alpha = 0.25;
@@ -140,6 +149,7 @@ class Television extends Sprite
 		if (debugTextField.visible)
 		{
 			var debugLines:Array<String> = new Array<String>();
+			debugLines.push("MODE:     " + (cpu.extendedMode ? "ext" : "bas"));
 			debugLines.push("PC:       " + cpu.pc);
 			debugLines.push("I:        " + cpu.I);
 			debugLines.push("Opcode: 0x" + StringTools.hex(cpu.opcode));

@@ -39,12 +39,13 @@ class Chip8
 	public var memory:ByteArray;
 	public var V:ByteArray;
 	public var gfx:ByteArray;
-	public var xgfx:ByteArray;
+	public var xgfx:ByteArray; // [SUPER] Extended graphics memory
 	public var delay_timer:UInt = 0;
 	public var sound_timer:UInt = 0;
 	public var key:ByteArray;
 	public var sp:UInt = 0;
 	public var stack:Array<UInt>;
+	public var rpl:Array<UInt>; // [SUPER] RPL user flags
 	
 	public function new() 
 	{
@@ -58,6 +59,8 @@ class Chip8
 		for (i in 0...16) key.writeByte(0x00);
 		stack = new Array<UInt>();
 		for (i in 0...16) stack.push(0);
+		rpl = new Array<UInt>();
+		for (i in 0...8) rpl.push(0);
 		reset();
 	}
 	
@@ -86,6 +89,8 @@ class Chip8
 		// stack
 		sp = 0;
 		for (i in 0...16) stack[i] = 0;
+		// rpl
+		for (i in 0...8) rpl[i] = 0;
 	}
 	
 	public function load(filename:String, fontsetFilename:String = "FONTSET")
@@ -124,7 +129,7 @@ class Chip8
 		
 		drawFlag = false;
 		
-		screen.fillRect(new Rectangle(0, 0, screen.width, screen.height), 0x222222);
+		screen.fillRect(new Rectangle(0, 0, screen.width, screen.height), 0x111111);
 		
 		var x:Int = 0;
 		var y:Int = 0;
@@ -232,26 +237,70 @@ class Chip8
 			}
 			case 0x00FB: // [SUPER] scroll screen 4 pixels right
 			{
-				// to-do
+				trace("sr");
+				
+				var sw:UInt = (extendedMode ? 128 : 64);
+				var sh:UInt = (extendedMode ? 64 : 32);
+				
+				for (y in 0...sh) {
+					var x:UInt = sw - 1;
+					while (x >= 0) {
+						var i:UInt = y * sw + x;
+						if (x > 3) {
+							(extendedMode ? xgfx : gfx)[i] = (extendedMode ? xgfx : gfx)[i - 4];
+						} else {
+							(extendedMode ? xgfx : gfx)[i] = 0;
+						}
+						x--;
+					}
+				}
+				
+				drawFlag = true;
 				pc += 2;
 				return;
 			}
 			case 0x00FC: // [SUPER] scroll screen 4 pixels left
 			{
-				// to-do
+				trace("sl");
+				
+				var sw:UInt = (extendedMode ? 128 : 64);
+				var sh:UInt = (extendedMode ? 64 : 32);
+				
+				for (y in 0...sh) {
+					var x:UInt = 0;
+					while (x <= sw - 1) {
+						var i:UInt = y * sw + x;
+						if (x < sw - 3) {
+							(extendedMode ? xgfx : gfx)[i] = (extendedMode ? xgfx : gfx)[i + 4];
+						} else {
+							(extendedMode ? xgfx : gfx)[i] = 0;
+						}
+						x++;
+					}
+				}
+				
+				drawFlag = true;
 				pc += 2;
 				return;
 			}
 			case 0x00FE: // [SUPER] disable extended screen mode
 			{
-				// to-do
+				extendedMode = false;
+				clearScreen();
 				pc += 2;
 				return;
 			}
 			case 0x00FF: // [SUPER] enable extended screen mode (128 x 64)
 			{
-				// to-do
+				extendedMode = true;
+				clearScreen();
 				pc += 2;
+				return;
+			}
+			case 0x00FD: // [SUPER] Exit CHIP interpreter
+			{
+				// to-do
+				// just stay here forever
 				return;
 			}
 		}
@@ -264,7 +313,19 @@ class Chip8
 				{
 					case 0x00C0: // [SUPER] 00CN: scroll the screen down N lines
 					{
-						// to-do
+						var n:UInt = opcode & 0x000F;
+						var ni:UInt = n * (extendedMode ? 128 : 64);
+						var i = ((extendedMode ? 128 * 64 : 64 * 32) - 1);
+						while (i >= 0)
+						{
+							if (i >= ni) {
+								(extendedMode ? xgfx : gfx)[i] = (extendedMode ? xgfx : gfx)[i - ni];
+							} else {
+								(extendedMode ? xgfx : gfx)[i] = 0;
+							}
+							i--;
+						}
+						drawFlag = true;
 						pc += 2;
 						return;
 					}
@@ -576,6 +637,20 @@ class Chip8
 						pc += 2;
 						return;
 					}
+					
+					case 0x0075: // FX75: Store V0..VX in RPL user flags (X <= 7)
+					{
+						for (i in 0...((opcode & 0x0F00) >> 8) + 1) {
+							if (i <= 7) rpl[i] = V[i];
+						}
+					}
+					
+					case 0x0085: // FX85: Read V0..VX from RPL user flags (X <= 7) 
+					{
+						for (i in 0...((opcode & 0x0F00) >> 8) + 1) {
+							if (i <= 7) V[i] = rpl[i];
+						}
+					}
 				}
 			}
 		}
@@ -583,9 +658,46 @@ class Chip8
 		unknownOpcode();
 	}
 	
-	public function drawExtendedSprite()
+	public function drawExtendedSprite() // sprite is always 16x16
 	{
-		// to-do
+		if (!extendedMode) {
+			pc += 2;
+			return;
+		}
+		
+		var x:UInt = V[(opcode & 0x0F00) >> 8];
+		var y:UInt = V[(opcode & 0x00F0) >> 4];
+		var pixel:UInt = 0;
+
+		V[0xF] = 0;
+		for (yline in 0...16)
+		{
+			pixel = memory[I + yline * 2];
+			for(xline in 0...8)
+			{
+				if((pixel & (0x80 >> xline)) != 0)
+				{
+					if(xgfx[(x + xline + ((y + yline) * 128))] == 1)
+					{
+						V[0xF] = 1;                                    
+					}
+					xgfx[x + xline + ((y + yline) * 128)] = xgfx[x + xline + ((y + yline) * 128)] ^ 1;
+				}
+			}
+			pixel = memory[I + yline * 2 + 1];
+			for(xline in 0...8)
+			{
+				if((pixel & (0x80 >> xline)) != 0)
+				{
+					if(xgfx[((x + 8) + xline + ((y + yline) * 128))] == 1)
+					{
+						V[0xF] = 1;                                    
+					}
+					xgfx[(x + 8) + xline + ((y + yline) * 128)] = xgfx[(x + 8) + xline + ((y + yline) * 128)] ^ 1;
+				}
+			}
+		}
+		
 		drawFlag = true;			
 		pc += 2;
 	}
@@ -596,6 +708,7 @@ class Chip8
 		var y:UInt = V[(opcode & 0x00F0) >> 4];
 		var height:UInt = opcode & 0x000F;
 		var pixel:UInt = 0;
+		var sw:UInt = (extendedMode ? 128 : 64);
 
 		V[0xF] = 0;
 		for (yline in 0...height)
@@ -605,11 +718,11 @@ class Chip8
 			{
 				if((pixel & (0x80 >> xline)) != 0)
 				{
-					if(gfx[(x + xline + ((y + yline) * 64))] == 1)
+					if((extendedMode ? xgfx : gfx)[(x + xline + ((y + yline) * sw))] == 1)
 					{
 						V[0xF] = 1;                                    
 					}
-					gfx[x + xline + ((y + yline) * 64)] = gfx[x + xline + ((y + yline) * 64)] ^ 1;
+					(extendedMode ? xgfx : gfx)[x + xline + ((y + yline) * sw)] = (extendedMode ? xgfx : gfx)[x + xline + ((y + yline) * sw)] ^ 1;
 				}
 			}
 		}
