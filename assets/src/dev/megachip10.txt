@@ -1,0 +1,143 @@
+
+MEGA-CHIP8 v1.0b, by: Martijn Wenting / Revival Studios
+=======================================================
+A modified version of the CHIP-8 game interpreter originally
+made by Andreas Gustafsson / Erik Bryntse (schip).
+
+MEGA-CHIP offers:
+
+- 256x192 resolution
+- Indexed coloring (255 colors max + transparency)
+- Fixed high-speed speed in megachip mode
+- Custom sprite sizes
+- Update timing at ClearScreen
+- Extended I-register range (24 bit addessing, 32MB max)
+- Digitised sound (mono 8bit)
+- Downward compability (you can run your old CHIP/S-CHIP games)
+- Spritecolor 0 = transparent.
+- Spritecollision will occur if (backgroundcolor>0) when plotting spritepixel.
+
+
+Introduction to CHIP
+--------------------
+For those who don't remember, the CHIP-8 programming language was
+used in a number of home computers based on RCA's CDP1802 pro-
+cessor in the late 1970's.  It's a small, interpreted language
+designed specifically  for writing simple video games.  It has
+less than 40 instructions, including arithmetic, control flow,
+graphics, and sound.  The instructions are all 16 bits long and
+are executed by a very compact virtual machine interpreter (the
+1802 implementation was 512 bytes long).
+ 
+
+Technical specification 
+-----------------------
+The CHIP-8 virtual machine is byte-addressable and has an address
+space of 4 kB at addresses 000-FFF hex.  However, addresses
+000-1FF are reserved (this is where the CHIP-8 interpreter used to
+reside). Therefore, the CHIP-8 program itself begins at address
+200. All instructions are 16 bits long and by convention instruc-
+tions always start at an even address. 
+ 
+The machine has 16 8-bit general-purpose registers called V0..VF. 
+The VF register is modified by certain instructions and works as a
+carry flag and sprite collision indicator.  There is also a 16-bit
+pointer register I (though only the low 12 bits are generally
+used). 
+ 
+A CHIP-8 program displays graphics by drawing sprites that are 8 
+pixels wide and 1..15 pixels high.  The screen resolution is 32 by
+64 pixels in standard mode.  The origin is the upper left corner
+of the screen, and all coordinates are positive.  The sprites are
+stored in bigendian format, i.e., the most significant bit corre-
+sponds to the leftmost pixel. All drawing is done in XOR mode. If
+this causes one or more pixels to be erased, VF is <> 00, other-
+wise 00.
+
+In extended screen mode the resolution is 64 by 128 pixels. A
+sprite of 16x16 size is available. 
+ 
+There are two timers: the delay timer and the sound timer.  Both 
+timers count down about 60 times per second when nonzero; the
+speaker will beep whenever the sound timer is nonzero. 
+ 
+In the instruction table below, NNN is a 12-bit address, KK is an 
+8-bit constant, and X and Y are 4-bit register numbers.  Hex 
+characters represent themselves.  The two first characters of the 
+instruction code form the lower-address byte of the instruction,
+the first character being the more significant nibble. 
+
+
+MCHIP8 Technical specs (for implementation):
+--------------------------------------------
+- CLS will be used for timing/flipping/noflickering purpose
+- Emulationspeed/Num.ticks per frame will be fixed (1000 ticks????) OR timed to CLS
+- LDHI I,nnnnnnn instruction allows 24-bit adressing, always follow LDHI by a NOP instruction.
+- LDPAL Will load 32-bit colors to an internal mchip8 pallete at position 1. 
+  Color 0 is always black/transparent.
+- SPRW/SPRH can be 0..255 , use 0 for a width/height of 256 
+- SPRW/SPRH will overwrite n-setting for non-character sprites.
+- ALPHA/FADE will effect the fade-factor of the screenbuffer (0..255)
+ 
+Instructions marked with (+) are new in MEGA-CHIP.
+
+0010+ 	 Disable Megachip mode		(MEGAoFF)
+0011+ 	 Enable Megachip mode		(MEGAON)
+01nn+  	 I=(nn<<16)+nnnn , PC+=2;	(LDHI  I,nnnnnn , always follow LDHI with a NOP)
+02nn+ 	 Load nn-colors palette at I    (LDPAL nn) 
+03nn+ 	 Set Sprite-width to nn		(SPRW  nn)
+04nn+ 	 Set Sprite-height to nn	(SPRH  nn)
+05nn+ 	 Set Screenalpha to nn		(ALPHA nn, will become FADE nn)
+060n+ 	 Play digitised sound at I	(DIGISND), will add n for loop/noloop
+0700+ 	 Stop digitised sound 		(STOPSND)
+080n+ 	 Set sprite blendmode 		(BMODE n) (0=normal,1=25%,2=50%,3=75%,4=addative,5=multiply)
+00BN+    Scroll display N lines up	(SCRU n)
+
+00CN*    Scroll display N lines down
+00E0     Clear display 
+00EE     Return from subroutine
+00FB*    Scroll display 4 pixels right
+00FC*    Scroll display 4 pixels left
+00FD*    Exit CHIP interpreter
+00FE*    Disable extended screen mode
+00FF*    Enable extended screen mode for full-screen graphics
+
+1NNN     Jump to NNN 
+2NNN     Call subroutine at NNN 
+3XKK     Skip next instruction if VX == KK 
+4XKK     Skip next instruction if VX <> KK 
+5XY0     Skip next instruction if VX == VY 
+6XKK     VX := KK 
+7XKK     VX := VX + KK 
+8XY0     VX := VY, VF may change 
+8XY1     VX := VX or VY, VF may change 
+8XY2     VX := VX and VY, VF may change 
+8XY3     VX := VX xor VY, VF may change
+8XY4     VX := VX + VY, VF := carry 
+8XY5     VX := VX - VY, VF := not borrow 
+8XY6     VX := VX shr 1, VF := carry 
+8XY7     VX := VY - VX, VF := not borrow
+8XYE     VX := VX shl 1, VF := carry 
+9XY0     Skip next instruction if VX <> VY 
+ANNN     I := NNN 
+BNNN     Jump to NNN+V0 
+CXKK     VX := pseudorandom_number and KK 
+DXYN*    Show N-byte sprite from M(I) at coords (VX,VY), VF :=
+         collision. If N=0 and extended mode, show 16x16 sprite.
+EX9E     Skip next instruction if key VX pressed 
+EXA1     Skip next instruction if key VX not pressed 
+
+F0nn	 I:= 28bit addres
+FX07     VX := delay_timer 
+FX0A     wait for keypress, store hex value of key in VX 
+FX15     delay_timer := VX 
+FX18     sound_timer := VX 
+FX1E     I := I + VX 
+FX29     Point I to 5-byte font sprite for hex character VX 
+FX33     Store BCD representation of VX in M(I)..M(I+2) 
+FX55     Store V0..VX in memory starting at M(I) 
+FX65     Read V0..VX from memory starting at M(I) 
+FX30*    Point I to 10-byte font sprite for digit VX (0..9)
+FX75*    Store V0..VX in RPL user flags (X <= 7)
+FX85*    Read V0..VX from RPL user flags (X <= 7) 
+

@@ -16,7 +16,8 @@ class Menu extends Sprite
 {
 
 	public var title:TextField;
-	public var description:TextField;
+	public var description1:TextField;
+	public var description2:TextField;
 	
 	public function new() 
 	{
@@ -36,25 +37,34 @@ class Menu extends Sprite
 		title = new TextField();
 		title.defaultTextFormat = textFormatTitle;
 		title.x = 96;
-		title.y = 100;
+		title.y = 90;
 		title.width = 64 * 8;
 		title.text = "CHIP-8 Emulator\n===================";
 		title.selectable = false;
 		
-		description = new TextField();
-		description.defaultTextFormat = textFormatDescription;
-		description.x = 96;
-		description.y = 160;
-		description.width = 64 * 8;
-		description.text = "ESC - Show/hide this menu\n"
-						 + "F1  - Show key map\n"
-						 + "F2  - Show credits and specs\n"
-						 + "F10 - Restart current ROM"
-						 ;
-		description.selectable = false;
+		description1 = new TextField();
+		description1.defaultTextFormat = textFormatDescription;
+		description1.x = 96;
+		description1.y = 145;
+		description1.width = 64 * 8;
+		description1.text = "ESC - Show/hide this menu\n"
+						  + "F1  - Show key map"
+						  ;
+		description1.selectable = false;
+						 
+		description2 = new TextField();
+		description2.defaultTextFormat = textFormatDescription;
+		description2.x = 96 + 32 * 8;
+		description2.y = 145;
+		description2.width = 64 * 8;
+		description2.text = "F10 - Restart current ROM\n"
+						  + "F2  - Show credits and specs"
+						  ;
+		description2.selectable = false;
 						 
 		addChild(title);
-		addChild(description);
+		addChild(description1);
+		addChild(description2);
 	}
 	
 }

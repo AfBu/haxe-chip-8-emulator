@@ -1,0 +1,72 @@
+Super/Mega/Chip-48 Assembler V2.5 by Christian Egeberg 20/8/91.
+MegaChip extensions by: Martijn Wenting 08/07/2007
+
+TargetFile: welcome.ch8
+SourceFile: welcome.chp
+ListFile: welcome.ch8.lst
+
+Reading: welcome.chp
+
+------------------------------------------------------------------------------
+Warning: No directive recognized
+Current file welcome.chp line 11
+  DRV V0,V1,6 
+------------------------------------------------------------------------------
+Done reading
+
+-----   *INSTRUCTIONS*   -----
+
+  CLS               ; clear screen 
+welcome.chp(9).. 200: 00E0
+  LD I,SPR_DUDE 
+welcome.chp(10).. 202: A206
+  JP ENDLOOP 
+welcome.chp(14).. 204: 1204
+ DB $..1111.. 
+welcome.chp(19).. 206: 3C
+ DB $...11... 
+welcome.chp(20).. 207: 18
+ DB $11111111 
+welcome.chp(21).. 208: FF
+ DB $...11... 
+welcome.chp(22).. 209: 18
+ DB $..1..1.. 
+welcome.chp(23).. 20A: 24
+ DB $111..111 
+welcome.chp(24).. 20B: E7
+
+-----   *SYMBOLS*   -----
+
+------------------------------------------------------------------------------
+Warning: Unused symbol detected
+Symbol DRV file welcome.chp line 11
+  DRV V0,V1,6 
+------------------------------------------------------------------------------
+204 DRV welcome.chp(11)
+204 ENDLOOP welcome.chp(13)
+  welcome.chp(14)
+------------------------------------------------------------------------------
+Warning: Unused symbol detected
+Symbol PRGINIT file welcome.chp line 8
+PRGINIT: 
+------------------------------------------------------------------------------
+200 PRGINIT welcome.chp(8)
+206 SPR_DUDE welcome.chp(18)
+  welcome.chp(10)
+
+-----   *CONDITIONS*   -----
+
+UND ALIGNON
+DEF CHIP48
+UND CHIP8
+UND HPASC
+UND HPHEAD
+DEF MEGACHIP10
+DEF SCHIP10
+DEF SCHIP11
+UND USEDON
+UND USEDYES
+DEF XREFON
+DEF XREFYES
+
+Total number of warnings: 3

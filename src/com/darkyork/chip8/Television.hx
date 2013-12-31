@@ -110,7 +110,7 @@ class Television extends Sprite
 		statusTextField.width = 200;
 		statusTextField.x = 877 - 180;
 		statusTextField.y = 350;
-		statusTextField.visible = true;
+		statusTextField.visible = false;
 		
 		addChild(display);
 		addChild(overlay);
@@ -140,7 +140,7 @@ class Television extends Sprite
 		
 		if (loader.visible && !cpu.pause) {
 			cpu.pause = true;
-			display.alpha = 0.25;
+			display.alpha = 0.1;
 		}
 		if (!loader.visible && cpu.pause) {
 			cpu.pause = false;

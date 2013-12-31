@@ -97,7 +97,7 @@ class Chip8
 		reset();
 		
 		if (filename == "") 
-			filename = "data/LOGO";
+			filename = "data/WELCOME";
 		else
 			filename = "roms/" + filename;
 		
