@@ -12,1067 +12,2112 @@ Done reading
 -----   *INSTRUCTIONS*   -----
 
 HIGH  ; Hires Superchip mode (128x64) 
-welcome.chp(6).. 200: 00FF
-CLS               ; clear screen 
-welcome.chp(8).. 202: 00E0
-LD V8,32 
-welcome.chp(9).. 204: 6820
+welcome.chp(7).. 200: 00FF
+CLS 
+welcome.chp(9).. 202: 00E0
 LD I,SPR_LOGO_0 
-welcome.chp(10).. 206: A21C
-  DRW V0,V1,0 
-welcome.chp(13).. 208: D010
-  ADD V0,16 
-welcome.chp(14).. 20A: 7010
-  ADD I,V8 
-welcome.chp(15).. 20C: F81E
-  SE V0,128     ; if line filled skip  
-welcome.chp(16).. 20E: 3080
-  JP DRAWLOOP   ; draw next sprite 
-welcome.chp(17).. 210: 1208
-  ADD V1,16 
-welcome.chp(18).. 212: 7110
-  LD V0,0 
-welcome.chp(19).. 214: 6000
-  SE V1,64      ; if image filled skip 
-welcome.chp(20).. 216: 3140
-  JP DRAWLOOP   ; draw next sprite 
-welcome.chp(21).. 218: 1208
+welcome.chp(10).. 204: A22A
+CALL DRAWFULL 
+welcome.chp(11).. 206: 2210
+ LD I,SPR_BLINK_0 
+welcome.chp(14).. 208: A62A
+ CALL DRAWFULL 
+welcome.chp(15).. 20A: 2210
+ JP START 
+welcome.chp(17).. 20C: 1208
   JP ENDLOOP 
-welcome.chp(26).. 21A: 121A
+welcome.chp(20).. 20E: 120E
+ LD V0,0 
+welcome.chp(24).. 210: 6000
+ LD V1,0 
+welcome.chp(25).. 212: 6100
+ LD V2,32 
+welcome.chp(26).. 214: 6220
+  DRW V0,V1,0 
+welcome.chp(28).. 216: D010
+  ADD V0,16 
+welcome.chp(29).. 218: 7010
+  ADD I,V2 
+welcome.chp(30).. 21A: F21E
+  SE V0,128     ; if line filled skip  
+welcome.chp(31).. 21C: 3080
+  JP DRAWLOOP   ; draw next sprite 
+welcome.chp(32).. 21E: 1216
+  ADD V1,16 
+welcome.chp(33).. 220: 7110
+  LD V0,0 
+welcome.chp(34).. 222: 6000
+  SE V1,64      ; if image filled skip 
+welcome.chp(35).. 224: 3140
+  JP DRAWLOOP   ; draw next sprite 
+welcome.chp(36).. 226: 1216
+RET 
+welcome.chp(37).. 228: 00EE
   DB #AA,#AA 
-welcome.chp(30).. 21C: AAAA
+welcome.chp(41).. 22A: AAAA
   DB #55,#55 
-welcome.chp(31).. 21E: 5555
+welcome.chp(42).. 22C: 5555
   DB #AA,#AA 
-welcome.chp(32).. 220: AAAA
+welcome.chp(43).. 22E: AAAA
   DB #55,#55 
-welcome.chp(33).. 222: 5555
+welcome.chp(44).. 230: 5555
   DB #AA,#AA 
-welcome.chp(34).. 224: AAAA
+welcome.chp(45).. 232: AAAA
   DB #50,#00 
-welcome.chp(35).. 226: 5000
+welcome.chp(46).. 234: 5000
   DB #A8,#00 
-welcome.chp(36).. 228: A800
+welcome.chp(47).. 236: A800
   DB #50,#00 
-welcome.chp(37).. 22A: 5000
+welcome.chp(48).. 238: 5000
   DB #A8,#00 
-welcome.chp(38).. 22C: A800
+welcome.chp(49).. 23A: A800
   DB #50,#00 
-welcome.chp(39).. 22E: 5000
+welcome.chp(50).. 23C: 5000
   DB #A8,#07 
-welcome.chp(40).. 230: A807
+welcome.chp(51).. 23E: A807
   DB #50,#0F 
-welcome.chp(41).. 232: 500F
+welcome.chp(52).. 240: 500F
   DB #A8,#18 
-welcome.chp(42).. 234: A818
+welcome.chp(53).. 242: A818
   DB #50,#18 
-welcome.chp(43).. 236: 5018
+welcome.chp(54).. 244: 5018
   DB #A8,#18 
-welcome.chp(44).. 238: A818
+welcome.chp(55).. 246: A818
   DB #50,#18 
-welcome.chp(45).. 23A: 5018
+welcome.chp(56).. 248: 5018
   DB #AA,#AA 
-welcome.chp(47).. 23C: AAAA
+welcome.chp(58).. 24A: AAAA
   DB #55,#55 
-welcome.chp(48).. 23E: 5555
+welcome.chp(59).. 24C: 5555
   DB #AA,#AA 
-welcome.chp(49).. 240: AAAA
+welcome.chp(60).. 24E: AAAA
   DB #55,#55 
-welcome.chp(50).. 242: 5555
+welcome.chp(61).. 250: 5555
   DB #AA,#AA 
-welcome.chp(51).. 244: AAAA
+welcome.chp(62).. 252: AAAA
   DB #00,#00 
-welcome.chp(52).. 246: 0000
+welcome.chp(63).. 254: 0000
   DB #00,#00 
-welcome.chp(53).. 248: 0000
+welcome.chp(64).. 256: 0000
   DB #00,#00 
-welcome.chp(54).. 24A: 0000
+welcome.chp(65).. 258: 0000
   DB #00,#00 
-welcome.chp(55).. 24C: 0000
+welcome.chp(66).. 25A: 0000
   DB #00,#00 
-welcome.chp(56).. 24E: 0000
+welcome.chp(67).. 25C: 0000
   DB #F9,#81 
-welcome.chp(57).. 250: F981
+welcome.chp(68).. 25E: F981
   DB #F9,#81 
-welcome.chp(58).. 252: F981
+welcome.chp(69).. 260: F981
   DB #01,#81 
-welcome.chp(59).. 254: 0181
+welcome.chp(70).. 262: 0181
   DB #01,#81 
-welcome.chp(60).. 256: 0181
+welcome.chp(71).. 264: 0181
   DB #01,#81 
-welcome.chp(61).. 258: 0181
+welcome.chp(72).. 266: 0181
   DB #01,#81 
-welcome.chp(62).. 25A: 0181
+welcome.chp(73).. 268: 0181
   DB #AA,#AA 
-welcome.chp(64).. 25C: AAAA
+welcome.chp(75).. 26A: AAAA
   DB #55,#55 
-welcome.chp(65).. 25E: 5555
+welcome.chp(76).. 26C: 5555
   DB #AA,#AA 
-welcome.chp(66).. 260: AAAA
+welcome.chp(77).. 26E: AAAA
   DB #55,#55 
-welcome.chp(67).. 262: 5555
+welcome.chp(78).. 270: 5555
   DB #AA,#AA 
-welcome.chp(68).. 264: AAAA
+welcome.chp(79).. 272: AAAA
   DB #00,#00 
-welcome.chp(69).. 266: 0000
+welcome.chp(80).. 274: 0000
   DB #00,#00 
-welcome.chp(70).. 268: 0000
+welcome.chp(81).. 276: 0000
   DB #00,#00 
-welcome.chp(71).. 26A: 0000
+welcome.chp(82).. 278: 0000
   DB #00,#00 
-welcome.chp(72).. 26C: 0000
+welcome.chp(83).. 27A: 0000
   DB #00,#00 
-welcome.chp(73).. 26E: 0000
+welcome.chp(84).. 27C: 0000
   DB #99,#FE 
-welcome.chp(74).. 270: 99FE
+welcome.chp(85).. 27E: 99FE
   DB #99,#FF 
-welcome.chp(75).. 272: 99FF
+welcome.chp(86).. 280: 99FF
   DB #99,#81 
-welcome.chp(76).. 274: 9981
+welcome.chp(87).. 282: 9981
   DB #99,#81 
-welcome.chp(77).. 276: 9981
+welcome.chp(88).. 284: 9981
   DB #99,#81 
-welcome.chp(78).. 278: 9981
+welcome.chp(89).. 286: 9981
   DB #99,#81 
-welcome.chp(79).. 27A: 9981
+welcome.chp(90).. 288: 9981
   DB #AA,#AA 
-welcome.chp(81).. 27C: AAAA
+welcome.chp(92).. 28A: AAAA
   DB #55,#55 
-welcome.chp(82).. 27E: 5555
+welcome.chp(93).. 28C: 5555
   DB #AA,#AA 
-welcome.chp(83).. 280: AAAA
+welcome.chp(94).. 28E: AAAA
   DB #55,#55 
-welcome.chp(84).. 282: 5555
+welcome.chp(95).. 290: 5555
   DB #AA,#AA 
-welcome.chp(85).. 284: AAAA
+welcome.chp(96).. 292: AAAA
   DB #00,#00 
-welcome.chp(86).. 286: 0000
+welcome.chp(97).. 294: 0000
   DB #00,#00 
-welcome.chp(87).. 288: 0000
+welcome.chp(98).. 296: 0000
   DB #00,#00 
-welcome.chp(88).. 28A: 0000
+welcome.chp(99).. 298: 0000
   DB #00,#00 
-welcome.chp(89).. 28C: 0000
+welcome.chp(100).. 29A: 0000
   DB #00,#00 
-welcome.chp(90).. 28E: 0000
+welcome.chp(101).. 29C: 0000
   DB #00,#07 
-welcome.chp(91).. 290: 0007
+welcome.chp(102).. 29E: 0007
   DB #00,#0F 
-welcome.chp(92).. 292: 000F
+welcome.chp(103).. 2A0: 000F
   DB #80,#18 
-welcome.chp(93).. 294: 8018
+welcome.chp(104).. 2A2: 8018
   DB #80,#18 
-welcome.chp(94).. 296: 8018
+welcome.chp(105).. 2A4: 8018
   DB #80,#18 
-welcome.chp(95).. 298: 8018
+welcome.chp(106).. 2A6: 8018
   DB #80,#18 
-welcome.chp(96).. 29A: 8018
+welcome.chp(107).. 2A8: 8018
   DB #AA,#AA 
-welcome.chp(98).. 29C: AAAA
+welcome.chp(109).. 2AA: AAAA
   DB #55,#55 
-welcome.chp(99).. 29E: 5555
+welcome.chp(110).. 2AC: 5555
   DB #AA,#AA 
-welcome.chp(100).. 2A0: AAAA
+welcome.chp(111).. 2AE: AAAA
   DB #55,#55 
-welcome.chp(101).. 2A2: 5555
+welcome.chp(112).. 2B0: 5555
   DB #AA,#AA 
-welcome.chp(102).. 2A4: AAAA
+welcome.chp(113).. 2B2: AAAA
   DB #00,#00 
-welcome.chp(103).. 2A6: 0000
+welcome.chp(114).. 2B4: 0000
   DB #00,#00 
-welcome.chp(104).. 2A8: 0000
+welcome.chp(115).. 2B6: 0000
   DB #00,#00 
-welcome.chp(105).. 2AA: 0000
+welcome.chp(116).. 2B8: 0000
   DB #00,#00 
-welcome.chp(106).. 2AC: 0000
+welcome.chp(117).. 2BA: 0000
   DB #00,#00 
-welcome.chp(107).. 2AE: 0000
+welcome.chp(118).. 2BC: 0000
   DB #E0,#01 
-welcome.chp(108).. 2B0: E001
+welcome.chp(119).. 2BE: E001
   DB #F0,#01 
-welcome.chp(109).. 2B2: F001
+welcome.chp(120).. 2C0: F001
   DB #18,#01 
-welcome.chp(110).. 2B4: 1801
+welcome.chp(121).. 2C2: 1801
   DB #18,#01 
-welcome.chp(111).. 2B6: 1801
+welcome.chp(122).. 2C4: 1801
   DB #18,#01 
-welcome.chp(112).. 2B8: 1801
+welcome.chp(123).. 2C6: 1801
   DB #18,#01 
-welcome.chp(113).. 2BA: 1801
+welcome.chp(124).. 2C8: 1801
   DB #AA,#AA 
-welcome.chp(115).. 2BC: AAAA
+welcome.chp(126).. 2CA: AAAA
   DB #55,#55 
-welcome.chp(116).. 2BE: 5555
+welcome.chp(127).. 2CC: 5555
   DB #AA,#AA 
-welcome.chp(117).. 2C0: AAAA
+welcome.chp(128).. 2CE: AAAA
   DB #55,#55 
-welcome.chp(118).. 2C2: 5555
+welcome.chp(129).. 2D0: 5555
   DB #AA,#AA 
-welcome.chp(119).. 2C4: AAAA
+welcome.chp(130).. 2D2: AAAA
   DB #00,#00 
-welcome.chp(120).. 2C6: 0000
+welcome.chp(131).. 2D4: 0000
   DB #00,#00 
-welcome.chp(121).. 2C8: 0000
+welcome.chp(132).. 2D6: 0000
   DB #00,#00 
-welcome.chp(122).. 2CA: 0000
+welcome.chp(133).. 2D8: 0000
   DB #00,#00 
-welcome.chp(123).. 2CC: 0000
+welcome.chp(134).. 2DA: 0000
   DB #00,#00 
-welcome.chp(124).. 2CE: 0000
+welcome.chp(135).. 2DC: 0000
   DB #FF,#98 
-welcome.chp(125).. 2D0: FF98
+welcome.chp(136).. 2DE: FF98
   DB #FF,#98 
-welcome.chp(126).. 2D2: FF98
+welcome.chp(137).. 2E0: FF98
   DB #80,#1E 
-welcome.chp(127).. 2D4: 801E
+welcome.chp(138).. 2E2: 801E
   DB #80,#1E 
-welcome.chp(128).. 2D6: 801E
+welcome.chp(139).. 2E4: 801E
   DB #80,#19 
-welcome.chp(129).. 2D8: 8019
+welcome.chp(140).. 2E6: 8019
   DB #80,#19 
-welcome.chp(130).. 2DA: 8019
+welcome.chp(141).. 2E8: 8019
   DB #AA,#AA 
-welcome.chp(132).. 2DC: AAAA
+welcome.chp(143).. 2EA: AAAA
   DB #55,#55 
-welcome.chp(133).. 2DE: 5555
+welcome.chp(144).. 2EC: 5555
   DB #AA,#AA 
-welcome.chp(134).. 2E0: AAAA
+welcome.chp(145).. 2EE: AAAA
   DB #55,#55 
-welcome.chp(135).. 2E2: 5555
+welcome.chp(146).. 2F0: 5555
   DB #AA,#AA 
-welcome.chp(136).. 2E4: AAAA
+welcome.chp(147).. 2F2: AAAA
   DB #00,#00 
-welcome.chp(137).. 2E6: 0000
+welcome.chp(148).. 2F4: 0000
   DB #00,#00 
-welcome.chp(138).. 2E8: 0000
+welcome.chp(149).. 2F6: 0000
   DB #00,#00 
-welcome.chp(139).. 2EA: 0000
+welcome.chp(150).. 2F8: 0000
   DB #00,#00 
-welcome.chp(140).. 2EC: 0000
+welcome.chp(151).. 2FA: 0000
   DB #00,#00 
-welcome.chp(141).. 2EE: 0000
+welcome.chp(152).. 2FC: 0000
   DB #01,#98 
-welcome.chp(142).. 2F0: 0198
+welcome.chp(153).. 2FE: 0198
   DB #01,#98 
-welcome.chp(143).. 2F2: 0198
+welcome.chp(154).. 300: 0198
   DB #07,#98 
-welcome.chp(144).. 2F4: 0798
+welcome.chp(155).. 302: 0798
   DB #07,#98 
-welcome.chp(145).. 2F6: 0798
+welcome.chp(156).. 304: 0798
   DB #99,#98 
-welcome.chp(146).. 2F8: 9998
+welcome.chp(157).. 306: 9998
   DB #99,#98 
-welcome.chp(147).. 2FA: 9998
+welcome.chp(158).. 308: 9998
   DB #AA,#AA 
-welcome.chp(149).. 2FC: AAAA
+welcome.chp(160).. 30A: AAAA
   DB #55,#55 
-welcome.chp(150).. 2FE: 5555
+welcome.chp(161).. 30C: 5555
   DB #AA,#AA 
-welcome.chp(151).. 300: AAAA
+welcome.chp(162).. 30E: AAAA
   DB #55,#55 
-welcome.chp(152).. 302: 5555
+welcome.chp(163).. 310: 5555
   DB #AA,#AA 
-welcome.chp(153).. 304: AAAA
+welcome.chp(164).. 312: AAAA
   DB #00,#15 
-welcome.chp(154).. 306: 0015
+welcome.chp(165).. 314: 0015
   DB #00,#0A 
-welcome.chp(155).. 308: 000A
+welcome.chp(166).. 316: 000A
   DB #00,#15 
-welcome.chp(156).. 30A: 0015
+welcome.chp(167).. 318: 0015
   DB #00,#0A 
-welcome.chp(157).. 30C: 000A
+welcome.chp(168).. 31A: 000A
   DB #00,#15 
-welcome.chp(158).. 30E: 0015
+welcome.chp(169).. 31C: 0015
   DB #18,#0A 
-welcome.chp(159).. 310: 180A
+welcome.chp(170).. 31E: 180A
   DB #18,#15 
-welcome.chp(160).. 312: 1815
+welcome.chp(171).. 320: 1815
   DB #18,#0A 
-welcome.chp(161).. 314: 180A
+welcome.chp(172).. 322: 180A
   DB #18,#15 
-welcome.chp(162).. 316: 1815
+welcome.chp(173).. 324: 1815
   DB #18,#0A 
-welcome.chp(163).. 318: 180A
+welcome.chp(174).. 326: 180A
   DB #18,#15 
-welcome.chp(164).. 31A: 1815
+welcome.chp(175).. 328: 1815
   DB #A8,#18 
-welcome.chp(166).. 31C: A818
+welcome.chp(177).. 32A: A818
   DB #50,#18 
-welcome.chp(167).. 31E: 5018
+welcome.chp(178).. 32C: 5018
   DB #A8,#18 
-welcome.chp(168).. 320: A818
+welcome.chp(179).. 32E: A818
   DB #50,#18 
-welcome.chp(169).. 322: 5018
+welcome.chp(180).. 330: 5018
   DB #A8,#18 
-welcome.chp(170).. 324: A818
+welcome.chp(181).. 332: A818
   DB #50,#18 
-welcome.chp(171).. 326: 5018
+welcome.chp(182).. 334: 5018
   DB #A8,#0F 
-welcome.chp(172).. 328: A80F
+welcome.chp(183).. 336: A80F
   DB #50,#07 
-welcome.chp(173).. 32A: 5007
+welcome.chp(184).. 338: 5007
   DB #A8,#00 
-welcome.chp(174).. 32C: A800
+welcome.chp(185).. 33A: A800
   DB #50,#00 
-welcome.chp(175).. 32E: 5000
+welcome.chp(186).. 33C: 5000
   DB #A8,#00 
-welcome.chp(176).. 330: A800
+welcome.chp(187).. 33E: A800
   DB #50,#00 
-welcome.chp(177).. 332: 5000
+welcome.chp(188).. 340: 5000
   DB #A8,#00 
-welcome.chp(178).. 334: A800
+welcome.chp(189).. 342: A800
   DB #50,#00 
-welcome.chp(179).. 336: 5000
+welcome.chp(190).. 344: 5000
   DB #A8,#00 
-welcome.chp(180).. 338: A800
+welcome.chp(191).. 346: A800
   DB #50,#00 
-welcome.chp(181).. 33A: 5000
+welcome.chp(192).. 348: 5000
   DB #01,#FF 
-welcome.chp(183).. 33C: 01FF
+welcome.chp(194).. 34A: 01FF
   DB #01,#FF 
-welcome.chp(184).. 33E: 01FF
+welcome.chp(195).. 34C: 01FF
   DB #01,#81 
-welcome.chp(185).. 340: 0181
+welcome.chp(196).. 34E: 0181
   DB #01,#81 
-welcome.chp(186).. 342: 0181
+welcome.chp(197).. 350: 0181
   DB #01,#81 
-welcome.chp(187).. 344: 0181
+welcome.chp(198).. 352: 0181
   DB #01,#81 
-welcome.chp(188).. 346: 0181
+welcome.chp(199).. 354: 0181
   DB #F9,#81 
-welcome.chp(189).. 348: F981
+welcome.chp(200).. 356: F981
   DB #F9,#81 
-welcome.chp(190).. 34A: F981
+welcome.chp(201).. 358: F981
   DB #00,#00 
-welcome.chp(191).. 34C: 0000
+welcome.chp(202).. 35A: 0000
   DB #00,#00 
-welcome.chp(192).. 34E: 0000
+welcome.chp(203).. 35C: 0000
   DB #00,#00 
-welcome.chp(193).. 350: 0000
+welcome.chp(204).. 35E: 0000
   DB #00,#00 
-welcome.chp(194).. 352: 0000
+welcome.chp(205).. 360: 0000
   DB #00,#00 
-welcome.chp(195).. 354: 0000
+welcome.chp(206).. 362: 0000
   DB #00,#00 
-welcome.chp(196).. 356: 0000
+welcome.chp(207).. 364: 0000
   DB #00,#00 
-welcome.chp(197).. 358: 0000
+welcome.chp(208).. 366: 0000
   DB #00,#00 
-welcome.chp(198).. 35A: 0000
+welcome.chp(209).. 368: 0000
   DB #99,#FF 
-welcome.chp(200).. 35C: 99FF
+welcome.chp(211).. 36A: 99FF
   DB #99,#FE 
-welcome.chp(201).. 35E: 99FE
+welcome.chp(212).. 36C: 99FE
   DB #99,#80 
-welcome.chp(202).. 360: 9980
+welcome.chp(213).. 36E: 9980
   DB #99,#80 
-welcome.chp(203).. 362: 9980
+welcome.chp(214).. 370: 9980
   DB #99,#80 
-welcome.chp(204).. 364: 9980
+welcome.chp(215).. 372: 9980
   DB #99,#80 
-welcome.chp(205).. 366: 9980
+welcome.chp(216).. 374: 9980
   DB #99,#80 
-welcome.chp(206).. 368: 9980
+welcome.chp(217).. 376: 9980
   DB #99,#80 
-welcome.chp(207).. 36A: 9980
+welcome.chp(218).. 378: 9980
   DB #00,#00 
-welcome.chp(208).. 36C: 0000
+welcome.chp(219).. 37A: 0000
   DB #00,#00 
-welcome.chp(209).. 36E: 0000
+welcome.chp(220).. 37C: 0000
   DB #00,#00 
-welcome.chp(210).. 370: 0000
+welcome.chp(221).. 37E: 0000
   DB #00,#00 
-welcome.chp(211).. 372: 0000
+welcome.chp(222).. 380: 0000
   DB #00,#00 
-welcome.chp(212).. 374: 0000
+welcome.chp(223).. 382: 0000
   DB #00,#00 
-welcome.chp(213).. 376: 0000
+welcome.chp(224).. 384: 0000
   DB #00,#00 
-welcome.chp(214).. 378: 0000
+welcome.chp(225).. 386: 0000
   DB #00,#00 
-welcome.chp(215).. 37A: 0000
+welcome.chp(226).. 388: 0000
   DB #00,#0F 
-welcome.chp(217).. 37C: 000F
+welcome.chp(228).. 38A: 000F
   DB #00,#07 
-welcome.chp(218).. 37E: 0007
+welcome.chp(229).. 38C: 0007
   DB #1F,#98 
-welcome.chp(219).. 380: 1F98
+welcome.chp(230).. 38E: 1F98
   DB #1F,#98 
-welcome.chp(220).. 382: 1F98
+welcome.chp(231).. 390: 1F98
   DB #00,#18 
-welcome.chp(221).. 384: 0018
+welcome.chp(232).. 392: 0018
   DB #00,#18 
-welcome.chp(222).. 386: 0018
+welcome.chp(233).. 394: 0018
   DB #00,#0F 
-welcome.chp(223).. 388: 000F
+welcome.chp(234).. 396: 000F
   DB #00,#07 
-welcome.chp(224).. 38A: 0007
+welcome.chp(235).. 398: 0007
   DB #00,#00 
-welcome.chp(225).. 38C: 0000
+welcome.chp(236).. 39A: 0000
   DB #00,#00 
-welcome.chp(226).. 38E: 0000
+welcome.chp(237).. 39C: 0000
   DB #00,#00 
-welcome.chp(227).. 390: 0000
+welcome.chp(238).. 39E: 0000
   DB #00,#00 
-welcome.chp(228).. 392: 0000
+welcome.chp(239).. 3A0: 0000
   DB #00,#00 
-welcome.chp(229).. 394: 0000
+welcome.chp(240).. 3A2: 0000
   DB #00,#00 
-welcome.chp(230).. 396: 0000
+welcome.chp(241).. 3A4: 0000
   DB #00,#00 
-welcome.chp(231).. 398: 0000
+welcome.chp(242).. 3A6: 0000
   DB #00,#00 
-welcome.chp(232).. 39A: 0000
+welcome.chp(243).. 3A8: 0000
   DB #F0,#01 
-welcome.chp(234).. 39C: F001
+welcome.chp(245).. 3AA: F001
   DB #E0,#01 
-welcome.chp(235).. 39E: E001
+welcome.chp(246).. 3AC: E001
   DB #18,#01 
-welcome.chp(236).. 3A0: 1801
+welcome.chp(247).. 3AE: 1801
   DB #18,#01 
-welcome.chp(237).. 3A2: 1801
+welcome.chp(248).. 3B0: 1801
   DB #18,#01 
-welcome.chp(238).. 3A4: 1801
+welcome.chp(249).. 3B2: 1801
   DB #18,#01 
-welcome.chp(239).. 3A6: 1801
+welcome.chp(250).. 3B4: 1801
   DB #F0,#01 
-welcome.chp(240).. 3A8: F001
+welcome.chp(251).. 3B6: F001
   DB #E0,#01 
-welcome.chp(241).. 3AA: E001
+welcome.chp(252).. 3B8: E001
   DB #00,#00 
-welcome.chp(242).. 3AC: 0000
+welcome.chp(253).. 3BA: 0000
   DB #00,#00 
-welcome.chp(243).. 3AE: 0000
+welcome.chp(254).. 3BC: 0000
   DB #00,#00 
-welcome.chp(244).. 3B0: 0000
+welcome.chp(255).. 3BE: 0000
   DB #00,#00 
-welcome.chp(245).. 3B2: 0000
+welcome.chp(256).. 3C0: 0000
   DB #00,#00 
-welcome.chp(246).. 3B4: 0000
+welcome.chp(257).. 3C2: 0000
   DB #00,#00 
-welcome.chp(247).. 3B6: 0000
+welcome.chp(258).. 3C4: 0000
   DB #00,#00 
-welcome.chp(248).. 3B8: 0000
+welcome.chp(259).. 3C6: 0000
   DB #00,#00 
-welcome.chp(249).. 3BA: 0000
+welcome.chp(260).. 3C8: 0000
   DB #FF,#18 
-welcome.chp(251).. 3BC: FF18
+welcome.chp(262).. 3CA: FF18
   DB #FE,#18 
-welcome.chp(252).. 3BE: FE18
+welcome.chp(263).. 3CC: FE18
   DB #80,#18 
-welcome.chp(253).. 3C0: 8018
+welcome.chp(264).. 3CE: 8018
   DB #80,#18 
-welcome.chp(254).. 3C2: 8018
+welcome.chp(265).. 3D0: 8018
   DB #80,#18 
-welcome.chp(255).. 3C4: 8018
+welcome.chp(266).. 3D2: 8018
   DB #80,#18 
-welcome.chp(256).. 3C6: 8018
+welcome.chp(267).. 3D4: 8018
   DB #FF,#98 
-welcome.chp(257).. 3C8: FF98
+welcome.chp(268).. 3D6: FF98
   DB #FF,#98 
-welcome.chp(258).. 3CA: FF98
+welcome.chp(269).. 3D8: FF98
   DB #00,#00 
-welcome.chp(259).. 3CC: 0000
+welcome.chp(270).. 3DA: 0000
   DB #00,#00 
-welcome.chp(260).. 3CE: 0000
+welcome.chp(271).. 3DC: 0000
   DB #00,#00 
-welcome.chp(261).. 3D0: 0000
+welcome.chp(272).. 3DE: 0000
   DB #00,#00 
-welcome.chp(262).. 3D2: 0000
+welcome.chp(273).. 3E0: 0000
   DB #00,#00 
-welcome.chp(263).. 3D4: 0000
+welcome.chp(274).. 3E2: 0000
   DB #00,#00 
-welcome.chp(264).. 3D6: 0000
+welcome.chp(275).. 3E4: 0000
   DB #00,#00 
-welcome.chp(265).. 3D8: 0000
+welcome.chp(276).. 3E6: 0000
   DB #00,#00 
-welcome.chp(266).. 3DA: 0000
+welcome.chp(277).. 3E8: 0000
   DB #61,#98 
-welcome.chp(268).. 3DC: 6198
+welcome.chp(279).. 3EA: 6198
   DB #61,#98 
-welcome.chp(269).. 3DE: 6198
+welcome.chp(280).. 3EC: 6198
   DB #01,#98 
-welcome.chp(270).. 3E0: 0198
+welcome.chp(281).. 3EE: 0198
   DB #01,#98 
-welcome.chp(271).. 3E2: 0198
+welcome.chp(282).. 3F0: 0198
   DB #01,#98 
-welcome.chp(272).. 3E4: 0198
+welcome.chp(283).. 3F2: 0198
   DB #01,#98 
-welcome.chp(273).. 3E6: 0198
+welcome.chp(284).. 3F4: 0198
   DB #01,#8F 
-welcome.chp(274).. 3E8: 018F
+welcome.chp(285).. 3F6: 018F
   DB #01,#87 
-welcome.chp(275).. 3EA: 0187
+welcome.chp(286).. 3F8: 0187
   DB #00,#00 
-welcome.chp(276).. 3EC: 0000
+welcome.chp(287).. 3FA: 0000
   DB #00,#00 
-welcome.chp(277).. 3EE: 0000
+welcome.chp(288).. 3FC: 0000
   DB #00,#00 
-welcome.chp(278).. 3F0: 0000
+welcome.chp(289).. 3FE: 0000
   DB #00,#00 
-welcome.chp(279).. 3F2: 0000
+welcome.chp(290).. 400: 0000
   DB #00,#00 
-welcome.chp(280).. 3F4: 0000
+welcome.chp(291).. 402: 0000
   DB #00,#00 
-welcome.chp(281).. 3F6: 0000
+welcome.chp(292).. 404: 0000
   DB #00,#00 
-welcome.chp(282).. 3F8: 0000
+welcome.chp(293).. 406: 0000
   DB #00,#00 
-welcome.chp(283).. 3FA: 0000
+welcome.chp(294).. 408: 0000
   DB #18,#0A 
-welcome.chp(285).. 3FC: 180A
+welcome.chp(296).. 40A: 180A
   DB #18,#15 
-welcome.chp(286).. 3FE: 1815
+welcome.chp(297).. 40C: 1815
   DB #18,#0A 
-welcome.chp(287).. 400: 180A
+welcome.chp(298).. 40E: 180A
   DB #18,#15 
-welcome.chp(288).. 402: 1815
+welcome.chp(299).. 410: 1815
   DB #18,#0A 
-welcome.chp(289).. 404: 180A
+welcome.chp(300).. 412: 180A
   DB #18,#15 
-welcome.chp(290).. 406: 1815
+welcome.chp(301).. 414: 1815
   DB #F0,#0A 
-welcome.chp(291).. 408: F00A
+welcome.chp(302).. 416: F00A
   DB #E0,#15 
-welcome.chp(292).. 40A: E015
+welcome.chp(303).. 418: E015
   DB #00,#0A 
-welcome.chp(293).. 40C: 000A
+welcome.chp(304).. 41A: 000A
   DB #00,#15 
-welcome.chp(294).. 40E: 0015
+welcome.chp(305).. 41C: 0015
   DB #00,#0A 
-welcome.chp(295).. 410: 000A
+welcome.chp(306).. 41E: 000A
   DB #00,#15 
-welcome.chp(296).. 412: 0015
+welcome.chp(307).. 420: 0015
   DB #00,#0A 
-welcome.chp(297).. 414: 000A
+welcome.chp(308).. 422: 000A
   DB #00,#15 
-welcome.chp(298).. 416: 0015
+welcome.chp(309).. 424: 0015
   DB #00,#0A 
-welcome.chp(299).. 418: 000A
+welcome.chp(310).. 426: 000A
   DB #00,#15 
-welcome.chp(300).. 41A: 0015
+welcome.chp(311).. 428: 0015
   DB #A8,#00 
-welcome.chp(302).. 41C: A800
+welcome.chp(313).. 42A: A800
   DB #50,#00 
-welcome.chp(303).. 41E: 5000
+welcome.chp(314).. 42C: 5000
   DB #A8,#00 
-welcome.chp(304).. 420: A800
+welcome.chp(315).. 42E: A800
   DB #50,#00 
-welcome.chp(305).. 422: 5000
+welcome.chp(316).. 430: 5000
   DB #A8,#00 
-welcome.chp(306).. 424: A800
+welcome.chp(317).. 432: A800
   DB #50,#00 
-welcome.chp(307).. 426: 5000
+welcome.chp(318).. 434: 5000
   DB #A8,#00 
-welcome.chp(308).. 428: A800
+welcome.chp(319).. 436: A800
   DB #50,#00 
-welcome.chp(309).. 42A: 5000
+welcome.chp(320).. 438: 5000
   DB #A8,#00 
-welcome.chp(310).. 42C: A800
+welcome.chp(321).. 43A: A800
   DB #50,#00 
-welcome.chp(311).. 42E: 5000
+welcome.chp(322).. 43C: 5000
   DB #A8,#00 
-welcome.chp(312).. 430: A800
+welcome.chp(323).. 43E: A800
   DB #50,#00 
-welcome.chp(313).. 432: 5000
+welcome.chp(324).. 440: 5000
   DB #A8,#00 
-welcome.chp(314).. 434: A800
+welcome.chp(325).. 442: A800
   DB #50,#00 
-welcome.chp(315).. 436: 5000
+welcome.chp(326).. 444: 5000
   DB #A8,#00 
-welcome.chp(316).. 438: A800
+welcome.chp(327).. 446: A800
   DB #50,#00 
-welcome.chp(317).. 43A: 5000
+welcome.chp(328).. 448: 5000
   DB #00,#00 
-welcome.chp(319).. 43C: 0000
+welcome.chp(330).. 44A: 0000
   DB #00,#00 
-welcome.chp(320).. 43E: 0000
+welcome.chp(331).. 44C: 0000
   DB #00,#00 
-welcome.chp(321).. 440: 0000
+welcome.chp(332).. 44E: 0000
   DB #00,#00 
-welcome.chp(322).. 442: 0000
+welcome.chp(333).. 450: 0000
   DB #00,#00 
-welcome.chp(323).. 444: 0000
+welcome.chp(334).. 452: 0000
   DB #00,#07 
-welcome.chp(324).. 446: 0007
+welcome.chp(335).. 454: 0007
   DB #00,#04 
-welcome.chp(325).. 448: 0004
+welcome.chp(336).. 456: 0004
   DB #00,#07 
-welcome.chp(326).. 44A: 0007
+welcome.chp(337).. 458: 0007
   DB #00,#04 
-welcome.chp(327).. 44C: 0004
+welcome.chp(338).. 45A: 0004
   DB #00,#04 
-welcome.chp(328).. 44E: 0004
+welcome.chp(339).. 45C: 0004
   DB #00,#00 
-welcome.chp(329).. 450: 0000
+welcome.chp(340).. 45E: 0000
   DB #00,#00 
-welcome.chp(330).. 452: 0000
+welcome.chp(341).. 460: 0000
   DB #00,#00 
-welcome.chp(331).. 454: 0000
+welcome.chp(342).. 462: 0000
   DB #00,#00 
-welcome.chp(332).. 456: 0000
+welcome.chp(343).. 464: 0000
   DB #00,#00 
-welcome.chp(333).. 458: 0000
+welcome.chp(344).. 466: 0000
   DB #00,#00 
-welcome.chp(334).. 45A: 0000
+welcome.chp(345).. 468: 0000
   DB #00,#00 
-welcome.chp(336).. 45C: 0000
+welcome.chp(347).. 46A: 0000
   DB #00,#00 
-welcome.chp(337).. 45E: 0000
+welcome.chp(348).. 46C: 0000
   DB #00,#00 
-welcome.chp(338).. 460: 0000
+welcome.chp(349).. 46E: 0000
   DB #00,#00 
-welcome.chp(339).. 462: 0000
+welcome.chp(350).. 470: 0000
   DB #00,#00 
-welcome.chp(340).. 464: 0000
+welcome.chp(351).. 472: 0000
   DB #DF,#7D 
-welcome.chp(341).. 466: DF7D
+welcome.chp(352).. 474: DF7D
   DB #51,#41 
-welcome.chp(342).. 468: 5141
+welcome.chp(353).. 476: 5141
   DB #DF,#71 
-welcome.chp(343).. 46A: DF71
+welcome.chp(354).. 478: DF71
   DB #12,#40 
-welcome.chp(344).. 46C: 1240
+welcome.chp(355).. 47A: 1240
   DB #11,#7D 
-welcome.chp(345).. 46E: 117D
+welcome.chp(356).. 47C: 117D
   DB #00,#00 
-welcome.chp(346).. 470: 0000
+welcome.chp(357).. 47E: 0000
   DB #00,#00 
-welcome.chp(347).. 472: 0000
+welcome.chp(358).. 480: 0000
   DB #00,#00 
-welcome.chp(348).. 474: 0000
+welcome.chp(359).. 482: 0000
   DB #00,#00 
-welcome.chp(349).. 476: 0000
+welcome.chp(360).. 484: 0000
   DB #00,#00 
-welcome.chp(350).. 478: 0000
+welcome.chp(361).. 486: 0000
   DB #00,#00 
-welcome.chp(351).. 47A: 0000
+welcome.chp(362).. 488: 0000
   DB #00,#00 
-welcome.chp(353).. 47C: 0000
+welcome.chp(364).. 48A: 0000
   DB #00,#00 
-welcome.chp(354).. 47E: 0000
+welcome.chp(365).. 48C: 0000
   DB #00,#00 
-welcome.chp(355).. 480: 0000
+welcome.chp(366).. 48E: 0000
   DB #00,#00 
-welcome.chp(356).. 482: 0000
+welcome.chp(367).. 490: 0000
   DB #00,#00 
-welcome.chp(357).. 484: 0000
+welcome.chp(368).. 492: 0000
   DB #F7,#C0 
-welcome.chp(358).. 486: F7C0
+welcome.chp(369).. 494: F7C0
   DB #04,#00 
-welcome.chp(359).. 488: 0400
+welcome.chp(370).. 496: 0400
   DB #F7,#C0 
-welcome.chp(360).. 48A: F7C0
+welcome.chp(371).. 498: F7C0
   DB #10,#40 
-welcome.chp(361).. 48C: 1040
+welcome.chp(372).. 49A: 1040
   DB #F7,#C0 
-welcome.chp(362).. 48E: F7C0
+welcome.chp(373).. 49C: F7C0
   DB #00,#00 
-welcome.chp(363).. 490: 0000
+welcome.chp(374).. 49E: 0000
   DB #00,#00 
-welcome.chp(364).. 492: 0000
+welcome.chp(375).. 4A0: 0000
   DB #00,#00 
-welcome.chp(365).. 494: 0000
+welcome.chp(376).. 4A2: 0000
   DB #00,#00 
-welcome.chp(366).. 496: 0000
+welcome.chp(377).. 4A4: 0000
   DB #00,#00 
-welcome.chp(367).. 498: 0000
+welcome.chp(378).. 4A6: 0000
   DB #00,#00 
-welcome.chp(368).. 49A: 0000
+welcome.chp(379).. 4A8: 0000
   DB #00,#00 
-welcome.chp(370).. 49C: 0000
+welcome.chp(381).. 4AA: 0000
   DB #00,#00 
-welcome.chp(371).. 49E: 0000
+welcome.chp(382).. 4AC: 0000
   DB #00,#00 
-welcome.chp(372).. 4A0: 0000
+welcome.chp(383).. 4AE: 0000
   DB #00,#00 
-welcome.chp(373).. 4A2: 0000
+welcome.chp(384).. 4B0: 0000
   DB #00,#00 
-welcome.chp(374).. 4A4: 0000
+welcome.chp(385).. 4B2: 0000
   DB #FB,#EF 
-welcome.chp(375).. 4A6: FBEF
+welcome.chp(386).. 4B4: FBEF
   DB #82,#08 
-welcome.chp(376).. 4A8: 8208
+welcome.chp(387).. 4B6: 8208
   DB #E3,#E8 
-welcome.chp(377).. 4AA: E3E8
+welcome.chp(388).. 4B8: E3E8
   DB #80,#28 
-welcome.chp(378).. 4AC: 8028
+welcome.chp(389).. 4BA: 8028
   DB #FB,#EF 
-welcome.chp(379).. 4AE: FBEF
+welcome.chp(390).. 4BC: FBEF
   DB #00,#00 
-welcome.chp(380).. 4B0: 0000
+welcome.chp(391).. 4BE: 0000
   DB #00,#00 
-welcome.chp(381).. 4B2: 0000
+welcome.chp(392).. 4C0: 0000
   DB #00,#00 
-welcome.chp(382).. 4B4: 0000
+welcome.chp(393).. 4C2: 0000
   DB #00,#00 
-welcome.chp(383).. 4B6: 0000
+welcome.chp(394).. 4C4: 0000
   DB #00,#00 
-welcome.chp(384).. 4B8: 0000
+welcome.chp(395).. 4C6: 0000
   DB #00,#00 
-welcome.chp(385).. 4BA: 0000
+welcome.chp(396).. 4C8: 0000
   DB #00,#00 
-welcome.chp(387).. 4BC: 0000
+welcome.chp(398).. 4CA: 0000
   DB #00,#00 
-welcome.chp(388).. 4BE: 0000
+welcome.chp(399).. 4CC: 0000
   DB #00,#00 
-welcome.chp(389).. 4C0: 0000
+welcome.chp(400).. 4CE: 0000
   DB #00,#00 
-welcome.chp(390).. 4C2: 0000
+welcome.chp(401).. 4D0: 0000
   DB #00,#00 
-welcome.chp(391).. 4C4: 0000
+welcome.chp(402).. 4D2: 0000
   DB #BE,#FB 
-welcome.chp(392).. 4C6: BEFB
+welcome.chp(403).. 4D4: BEFB
   DB #22,#8A 
-welcome.chp(393).. 4C8: 228A
+welcome.chp(404).. 4D6: 228A
   DB #22,#FB 
-welcome.chp(394).. 4CA: 22FB
+welcome.chp(405).. 4D8: 22FB
   DB #3E,#82 
-welcome.chp(395).. 4CC: 3E82
+welcome.chp(406).. 4DA: 3E82
   DB #A2,#83 
-welcome.chp(396).. 4CE: A283
+welcome.chp(407).. 4DC: A283
   DB #00,#00 
-welcome.chp(397).. 4D0: 0000
+welcome.chp(408).. 4DE: 0000
   DB #00,#00 
-welcome.chp(398).. 4D2: 0000
+welcome.chp(409).. 4E0: 0000
   DB #00,#00 
-welcome.chp(399).. 4D4: 0000
+welcome.chp(410).. 4E2: 0000
   DB #00,#00 
-welcome.chp(400).. 4D6: 0000
+welcome.chp(411).. 4E4: 0000
   DB #00,#00 
-welcome.chp(401).. 4D8: 0000
+welcome.chp(412).. 4E6: 0000
   DB #00,#00 
-welcome.chp(402).. 4DA: 0000
+welcome.chp(413).. 4E8: 0000
   DB #00,#00 
-welcome.chp(404).. 4DC: 0000
+welcome.chp(415).. 4EA: 0000
   DB #00,#00 
-welcome.chp(405).. 4DE: 0000
+welcome.chp(416).. 4EC: 0000
   DB #00,#00 
-welcome.chp(406).. 4E0: 0000
+welcome.chp(417).. 4EE: 0000
   DB #00,#00 
-welcome.chp(407).. 4E2: 0000
+welcome.chp(418).. 4F0: 0000
   DB #00,#00 
-welcome.chp(408).. 4E4: 0000
+welcome.chp(419).. 4F2: 0000
   DB #E0,#00 
-welcome.chp(409).. 4E6: E000
+welcome.chp(420).. 4F4: E000
   DB #00,#00 
-welcome.chp(410).. 4E8: 0000
+welcome.chp(421).. 4F6: 0000
   DB #80,#00 
-welcome.chp(411).. 4EA: 8000
+welcome.chp(422).. 4F8: 8000
   DB #00,#00 
-welcome.chp(412).. 4EC: 0000
+welcome.chp(423).. 4FA: 0000
   DB #E0,#00 
-welcome.chp(413).. 4EE: E000
+welcome.chp(424).. 4FC: E000
   DB #00,#00 
-welcome.chp(414).. 4F0: 0000
+welcome.chp(425).. 4FE: 0000
   DB #00,#00 
-welcome.chp(415).. 4F2: 0000
+welcome.chp(426).. 500: 0000
   DB #00,#00 
-welcome.chp(416).. 4F4: 0000
+welcome.chp(427).. 502: 0000
   DB #00,#00 
-welcome.chp(417).. 4F6: 0000
+welcome.chp(428).. 504: 0000
   DB #00,#00 
-welcome.chp(418).. 4F8: 0000
+welcome.chp(429).. 506: 0000
   DB #00,#00 
-welcome.chp(419).. 4FA: 0000
+welcome.chp(430).. 508: 0000
   DB #00,#0A 
-welcome.chp(421).. 4FC: 000A
+welcome.chp(432).. 50A: 000A
   DB #00,#15 
-welcome.chp(422).. 4FE: 0015
+welcome.chp(433).. 50C: 0015
   DB #00,#0A 
-welcome.chp(423).. 500: 000A
+welcome.chp(434).. 50E: 000A
   DB #00,#15 
-welcome.chp(424).. 502: 0015
+welcome.chp(435).. 510: 0015
   DB #00,#0A 
-welcome.chp(425).. 504: 000A
+welcome.chp(436).. 512: 000A
   DB #00,#15 
-welcome.chp(426).. 506: 0015
+welcome.chp(437).. 514: 0015
   DB #00,#0A 
-welcome.chp(427).. 508: 000A
+welcome.chp(438).. 516: 000A
   DB #00,#15 
-welcome.chp(428).. 50A: 0015
+welcome.chp(439).. 518: 0015
   DB #00,#0A 
-welcome.chp(429).. 50C: 000A
+welcome.chp(440).. 51A: 000A
   DB #00,#15 
-welcome.chp(430).. 50E: 0015
+welcome.chp(441).. 51C: 0015
   DB #00,#0A 
-welcome.chp(431).. 510: 000A
+welcome.chp(442).. 51E: 000A
   DB #00,#15 
-welcome.chp(432).. 512: 0015
+welcome.chp(443).. 520: 0015
   DB #00,#0A 
-welcome.chp(433).. 514: 000A
+welcome.chp(444).. 522: 000A
   DB #00,#15 
-welcome.chp(434).. 516: 0015
+welcome.chp(445).. 524: 0015
   DB #00,#0A 
-welcome.chp(435).. 518: 000A
+welcome.chp(446).. 526: 000A
   DB #00,#15 
-welcome.chp(436).. 51A: 0015
+welcome.chp(447).. 528: 0015
   DB #A8,#00 
-welcome.chp(438).. 51C: A800
+welcome.chp(449).. 52A: A800
   DB #50,#00 
-welcome.chp(439).. 51E: 5000
+welcome.chp(450).. 52C: 5000
   DB #A8,#00 
-welcome.chp(440).. 520: A800
+welcome.chp(451).. 52E: A800
   DB #50,#00 
-welcome.chp(441).. 522: 5000
+welcome.chp(452).. 530: 5000
   DB #A8,#00 
-welcome.chp(442).. 524: A800
+welcome.chp(453).. 532: A800
   DB #50,#00 
-welcome.chp(443).. 526: 5000
+welcome.chp(454).. 534: 5000
   DB #AA,#2F 
-welcome.chp(444).. 528: AA2F
+welcome.chp(455).. 536: AA2F
   DB #52,#22 
-welcome.chp(445).. 52A: 5222
+welcome.chp(456).. 538: 5222
   DB #AB,#E2 
-welcome.chp(446).. 52C: ABE2
+welcome.chp(457).. 53A: ABE2
   DB #52,#22 
-welcome.chp(447).. 52E: 5222
+welcome.chp(458).. 53C: 5222
   DB #AA,#22 
-welcome.chp(448).. 530: AA22
+welcome.chp(459).. 53E: AA22
   DB #50,#00 
-welcome.chp(449).. 532: 5000
+welcome.chp(460).. 540: 5000
   DB #AA,#AA 
-welcome.chp(450).. 534: AAAA
+welcome.chp(461).. 542: AAAA
   DB #55,#55 
-welcome.chp(451).. 536: 5555
+welcome.chp(462).. 544: 5555
   DB #AA,#AA 
-welcome.chp(452).. 538: AAAA
+welcome.chp(463).. 546: AAAA
   DB #55,#55 
-welcome.chp(453).. 53A: 5555
+welcome.chp(464).. 548: 5555
   DB #00,#00 
-welcome.chp(455).. 53C: 0000
+welcome.chp(466).. 54A: 0000
   DB #00,#00 
-welcome.chp(456).. 53E: 0000
+welcome.chp(467).. 54C: 0000
   DB #00,#00 
-welcome.chp(457).. 540: 0000
+welcome.chp(468).. 54E: 0000
   DB #00,#00 
-welcome.chp(458).. 542: 0000
+welcome.chp(469).. 550: 0000
   DB #00,#00 
-welcome.chp(459).. 544: 0000
+welcome.chp(470).. 552: 0000
   DB #00,#00 
-welcome.chp(460).. 546: 0000
+welcome.chp(471).. 554: 0000
   DB #BE,#FA 
-welcome.chp(461).. 548: BEFA
+welcome.chp(472).. 556: BEFA
   DB #08,#88 
-welcome.chp(462).. 54A: 0888
+welcome.chp(473).. 558: 0888
   DB #08,#F8 
-welcome.chp(463).. 54C: 08F8
+welcome.chp(474).. 55A: 08F8
   DB #08,#80 
-welcome.chp(464).. 54E: 0880
+welcome.chp(475).. 55C: 0880
   DB #08,#82 
-welcome.chp(465).. 550: 0882
+welcome.chp(476).. 55E: 0882
   DB #00,#00 
-welcome.chp(466).. 552: 0000
+welcome.chp(477).. 560: 0000
   DB #AA,#AA 
-welcome.chp(467).. 554: AAAA
+welcome.chp(478).. 562: AAAA
   DB #55,#55 
-welcome.chp(468).. 556: 5555
+welcome.chp(479).. 564: 5555
   DB #AA,#AA 
-welcome.chp(469).. 558: AAAA
+welcome.chp(480).. 566: AAAA
   DB #55,#55 
-welcome.chp(470).. 55A: 5555
+welcome.chp(481).. 568: 5555
   DB #00,#00 
-welcome.chp(472).. 55C: 0000
+welcome.chp(483).. 56A: 0000
   DB #00,#00 
-welcome.chp(473).. 55E: 0000
+welcome.chp(484).. 56C: 0000
   DB #00,#00 
-welcome.chp(474).. 560: 0000
+welcome.chp(485).. 56E: 0000
   DB #00,#00 
-welcome.chp(475).. 562: 0000
+welcome.chp(486).. 570: 0000
   DB #00,#00 
-welcome.chp(476).. 564: 0000
+welcome.chp(487).. 572: 0000
   DB #00,#00 
-welcome.chp(477).. 566: 0000
+welcome.chp(488).. 574: 0000
   DB #08,#2F 
-welcome.chp(478).. 568: 082F
+welcome.chp(489).. 576: 082F
   DB #10,#48 
-welcome.chp(479).. 56A: 1048
+welcome.chp(490).. 578: 1048
   DB #20,#8F 
-welcome.chp(480).. 56C: 208F
+welcome.chp(491).. 57A: 208F
   DB #41,#08 
-welcome.chp(481).. 56E: 4108
+welcome.chp(492).. 57C: 4108
   DB #82,#0F 
-welcome.chp(482).. 570: 820F
+welcome.chp(493).. 57E: 820F
   DB #00,#00 
-welcome.chp(483).. 572: 0000
+welcome.chp(494).. 580: 0000
   DB #AA,#AA 
-welcome.chp(484).. 574: AAAA
+welcome.chp(495).. 582: AAAA
   DB #55,#55 
-welcome.chp(485).. 576: 5555
+welcome.chp(496).. 584: 5555
   DB #AA,#AA 
-welcome.chp(486).. 578: AAAA
+welcome.chp(497).. 586: AAAA
   DB #55,#55 
-welcome.chp(487).. 57A: 5555
+welcome.chp(498).. 588: 5555
   DB #00,#00 
-welcome.chp(489).. 57C: 0000
+welcome.chp(500).. 58A: 0000
   DB #00,#00 
-welcome.chp(490).. 57E: 0000
+welcome.chp(501).. 58C: 0000
   DB #00,#00 
-welcome.chp(491).. 580: 0000
+welcome.chp(502).. 58E: 0000
   DB #00,#00 
-welcome.chp(492).. 582: 0000
+welcome.chp(503).. 590: 0000
   DB #00,#00 
-welcome.chp(493).. 584: 0000
+welcome.chp(504).. 592: 0000
   DB #00,#00 
-welcome.chp(494).. 586: 0000
+welcome.chp(505).. 594: 0000
   DB #AF,#88 
-welcome.chp(495).. 588: AF88
+welcome.chp(506).. 596: AF88
   DB #A2,#08 
-welcome.chp(496).. 58A: A208
+welcome.chp(507).. 598: A208
   DB #22,#08 
-welcome.chp(497).. 58C: 2208
+welcome.chp(508).. 59A: 2208
   DB #A2,#08 
-welcome.chp(498).. 58E: A208
+welcome.chp(509).. 59C: A208
   DB #A2,#2F 
-welcome.chp(499).. 590: A22F
+welcome.chp(510).. 59E: A22F
   DB #00,#00 
-welcome.chp(500).. 592: 0000
+welcome.chp(511).. 5A0: 0000
   DB #AA,#AA 
-welcome.chp(501).. 594: AAAA
+welcome.chp(512).. 5A2: AAAA
   DB #55,#55 
-welcome.chp(502).. 596: 5555
+welcome.chp(513).. 5A4: 5555
   DB #AA,#AA 
-welcome.chp(503).. 598: AAAA
+welcome.chp(514).. 5A6: AAAA
   DB #55,#55 
-welcome.chp(504).. 59A: 5555
+welcome.chp(515).. 5A8: 5555
   DB #00,#00 
-welcome.chp(506).. 59C: 0000
+welcome.chp(517).. 5AA: 0000
   DB #00,#00 
-welcome.chp(507).. 59E: 0000
+welcome.chp(518).. 5AC: 0000
   DB #00,#00 
-welcome.chp(508).. 5A0: 0000
+welcome.chp(519).. 5AE: 0000
   DB #00,#00 
-welcome.chp(509).. 5A2: 0000
+welcome.chp(520).. 5B0: 0000
   DB #00,#00 
-welcome.chp(510).. 5A4: 0000
+welcome.chp(521).. 5B2: 0000
   DB #00,#00 
-welcome.chp(511).. 5A6: 0000
+welcome.chp(522).. 5B4: 0000
   DB #22,#0B 
-welcome.chp(512).. 5A8: 220B
+welcome.chp(523).. 5B6: 220B
   DB #14,#12 
-welcome.chp(513).. 5AA: 1412
+welcome.chp(524).. 5B8: 1412
   DB #08,#22 
-welcome.chp(514).. 5AC: 0822
+welcome.chp(525).. 5BA: 0822
   DB #08,#42 
-welcome.chp(515).. 5AE: 0842
+welcome.chp(526).. 5BC: 0842
   DB #88,#83 
-welcome.chp(516).. 5B0: 8883
+welcome.chp(527).. 5BE: 8883
   DB #00,#00 
-welcome.chp(517).. 5B2: 0000
+welcome.chp(528).. 5C0: 0000
   DB #AA,#AA 
-welcome.chp(518).. 5B4: AAAA
+welcome.chp(529).. 5C2: AAAA
   DB #55,#55 
-welcome.chp(519).. 5B6: 5555
+welcome.chp(530).. 5C4: 5555
   DB #AA,#AA 
-welcome.chp(520).. 5B8: AAAA
+welcome.chp(531).. 5C6: AAAA
   DB #55,#55 
-welcome.chp(521).. 5BA: 5555
+welcome.chp(532).. 5C8: 5555
   DB #00,#00 
-welcome.chp(523).. 5BC: 0000
+welcome.chp(534).. 5CA: 0000
   DB #00,#00 
-welcome.chp(524).. 5BE: 0000
+welcome.chp(535).. 5CC: 0000
   DB #00,#00 
-welcome.chp(525).. 5C0: 0000
+welcome.chp(536).. 5CE: 0000
   DB #00,#00 
-welcome.chp(526).. 5C2: 0000
+welcome.chp(537).. 5D0: 0000
   DB #00,#00 
-welcome.chp(527).. 5C4: 0000
+welcome.chp(538).. 5D2: 0000
   DB #00,#00 
-welcome.chp(528).. 5C6: 0000
+welcome.chp(539).. 5D4: 0000
   DB #E8,#AF 
-welcome.chp(529).. 5C8: E8AF
+welcome.chp(540).. 5D6: E8AF
   DB #08,#A8 
-welcome.chp(530).. 5CA: 08A8
+welcome.chp(541).. 5D8: 08A8
   DB #0F,#AF 
-welcome.chp(531).. 5CC: 0FAF
+welcome.chp(542).. 5DA: 0FAF
   DB #08,#A8 
-welcome.chp(532).. 5CE: 08A8
+welcome.chp(543).. 5DC: 08A8
   DB #E8,#A8 
-welcome.chp(533).. 5D0: E8A8
+welcome.chp(544).. 5DE: E8A8
   DB #00,#00 
-welcome.chp(534).. 5D2: 0000
+welcome.chp(545).. 5E0: 0000
   DB #AA,#AA 
-welcome.chp(535).. 5D4: AAAA
+welcome.chp(546).. 5E2: AAAA
   DB #55,#55 
-welcome.chp(536).. 5D6: 5555
+welcome.chp(547).. 5E4: 5555
   DB #AA,#AA 
-welcome.chp(537).. 5D8: AAAA
+welcome.chp(548).. 5E6: AAAA
   DB #55,#55 
-welcome.chp(538).. 5DA: 5555
+welcome.chp(549).. 5E8: 5555
   DB #00,#00 
-welcome.chp(540).. 5DC: 0000
+welcome.chp(551).. 5EA: 0000
   DB #00,#00 
-welcome.chp(541).. 5DE: 0000
+welcome.chp(552).. 5EC: 0000
   DB #00,#00 
-welcome.chp(542).. 5E0: 0000
+welcome.chp(553).. 5EE: 0000
   DB #00,#00 
-welcome.chp(543).. 5E2: 0000
+welcome.chp(554).. 5F0: 0000
   DB #00,#00 
-welcome.chp(544).. 5E4: 0000
+welcome.chp(555).. 5F2: 0000
   DB #00,#00 
-welcome.chp(545).. 5E6: 0000
+welcome.chp(556).. 5F4: 0000
   DB #BE,#FB 
-welcome.chp(546).. 5E8: BEFB
+welcome.chp(557).. 5F6: BEFB
   DB #A2,#82 
-welcome.chp(547).. 5EA: A282
+welcome.chp(558).. 5F8: A282
   DB #BE,#E2 
-welcome.chp(548).. 5EC: BEE2
+welcome.chp(559).. 5FA: BEE2
   DB #22,#82 
-welcome.chp(549).. 5EE: 2282
+welcome.chp(560).. 5FC: 2282
   DB #3E,#FA 
-welcome.chp(550).. 5F0: 3EFA
+welcome.chp(561).. 5FE: 3EFA
   DB #00,#00 
-welcome.chp(551).. 5F2: 0000
+welcome.chp(562).. 600: 0000
   DB #AA,#AA 
-welcome.chp(552).. 5F4: AAAA
+welcome.chp(563).. 602: AAAA
   DB #55,#55 
-welcome.chp(553).. 5F6: 5555
+welcome.chp(564).. 604: 5555
   DB #AA,#AA 
-welcome.chp(554).. 5F8: AAAA
+welcome.chp(565).. 606: AAAA
   DB #55,#55 
-welcome.chp(555).. 5FA: 5555
+welcome.chp(566).. 608: 5555
   DB #00,#0A 
-welcome.chp(557).. 5FC: 000A
+welcome.chp(568).. 60A: 000A
   DB #00,#15 
-welcome.chp(558).. 5FE: 0015
+welcome.chp(569).. 60C: 0015
   DB #00,#0A 
-welcome.chp(559).. 600: 000A
+welcome.chp(570).. 60E: 000A
   DB #00,#15 
-welcome.chp(560).. 602: 0015
+welcome.chp(571).. 610: 0015
   DB #00,#0A 
-welcome.chp(561).. 604: 000A
+welcome.chp(572).. 612: 000A
   DB #00,#15 
-welcome.chp(562).. 606: 0015
+welcome.chp(573).. 614: 0015
   DB #E4,#4A 
-welcome.chp(563).. 608: E44A
+welcome.chp(574).. 616: E44A
   DB #A4,#55 
-welcome.chp(564).. 60A: A455
+welcome.chp(575).. 618: A455
   DB #A4,#4A 
-welcome.chp(565).. 60C: A44A
+welcome.chp(576).. 61A: A44A
   DB #A4,#55 
-welcome.chp(566).. 60E: A455
+welcome.chp(577).. 61C: A455
   DB #A7,#CA 
-welcome.chp(567).. 610: A7CA
+welcome.chp(578).. 61E: A7CA
   DB #00,#15 
-welcome.chp(568).. 612: 0015
+welcome.chp(579).. 620: 0015
   DB #AA,#AA 
-welcome.chp(569).. 614: AAAA
+welcome.chp(580).. 622: AAAA
   DB #55,#55 
-welcome.chp(570).. 616: 5555
+welcome.chp(581).. 624: 5555
   DB #AA,#AA 
-welcome.chp(571).. 618: AAAA
+welcome.chp(582).. 626: AAAA
   DB #55,#55 
-welcome.chp(572).. 61A: 5555
+welcome.chp(583).. 628: 5555
+  DB #00,#00 
+welcome.chp(588).. 62A: 0000
+  DB #00,#00 
+welcome.chp(589).. 62C: 0000
+  DB #00,#00 
+welcome.chp(590).. 62E: 0000
+  DB #00,#00 
+welcome.chp(591).. 630: 0000
+  DB #00,#00 
+welcome.chp(592).. 632: 0000
+  DB #00,#00 
+welcome.chp(593).. 634: 0000
+  DB #00,#00 
+welcome.chp(594).. 636: 0000
+  DB #00,#00 
+welcome.chp(595).. 638: 0000
+  DB #00,#00 
+welcome.chp(596).. 63A: 0000
+  DB #00,#00 
+welcome.chp(597).. 63C: 0000
+  DB #00,#00 
+welcome.chp(598).. 63E: 0000
+  DB #00,#00 
+welcome.chp(599).. 640: 0000
+  DB #00,#00 
+welcome.chp(600).. 642: 0000
+  DB #00,#00 
+welcome.chp(601).. 644: 0000
+  DB #00,#00 
+welcome.chp(602).. 646: 0000
+  DB #00,#00 
+welcome.chp(603).. 648: 0000
+  DB #00,#00 
+welcome.chp(605).. 64A: 0000
+  DB #00,#00 
+welcome.chp(606).. 64C: 0000
+  DB #00,#00 
+welcome.chp(607).. 64E: 0000
+  DB #00,#00 
+welcome.chp(608).. 650: 0000
+  DB #00,#00 
+welcome.chp(609).. 652: 0000
+  DB #00,#00 
+welcome.chp(610).. 654: 0000
+  DB #00,#00 
+welcome.chp(611).. 656: 0000
+  DB #00,#00 
+welcome.chp(612).. 658: 0000
+  DB #00,#00 
+welcome.chp(613).. 65A: 0000
+  DB #00,#00 
+welcome.chp(614).. 65C: 0000
+  DB #00,#00 
+welcome.chp(615).. 65E: 0000
+  DB #00,#00 
+welcome.chp(616).. 660: 0000
+  DB #00,#00 
+welcome.chp(617).. 662: 0000
+  DB #00,#00 
+welcome.chp(618).. 664: 0000
+  DB #00,#00 
+welcome.chp(619).. 666: 0000
+  DB #00,#00 
+welcome.chp(620).. 668: 0000
+  DB #00,#00 
+welcome.chp(622).. 66A: 0000
+  DB #00,#00 
+welcome.chp(623).. 66C: 0000
+  DB #00,#00 
+welcome.chp(624).. 66E: 0000
+  DB #00,#00 
+welcome.chp(625).. 670: 0000
+  DB #00,#00 
+welcome.chp(626).. 672: 0000
+  DB #00,#00 
+welcome.chp(627).. 674: 0000
+  DB #00,#00 
+welcome.chp(628).. 676: 0000
+  DB #00,#00 
+welcome.chp(629).. 678: 0000
+  DB #00,#00 
+welcome.chp(630).. 67A: 0000
+  DB #00,#00 
+welcome.chp(631).. 67C: 0000
+  DB #00,#00 
+welcome.chp(632).. 67E: 0000
+  DB #00,#00 
+welcome.chp(633).. 680: 0000
+  DB #00,#00 
+welcome.chp(634).. 682: 0000
+  DB #00,#00 
+welcome.chp(635).. 684: 0000
+  DB #00,#00 
+welcome.chp(636).. 686: 0000
+  DB #00,#00 
+welcome.chp(637).. 688: 0000
+  DB #00,#00 
+welcome.chp(639).. 68A: 0000
+  DB #00,#00 
+welcome.chp(640).. 68C: 0000
+  DB #00,#00 
+welcome.chp(641).. 68E: 0000
+  DB #00,#00 
+welcome.chp(642).. 690: 0000
+  DB #00,#00 
+welcome.chp(643).. 692: 0000
+  DB #00,#00 
+welcome.chp(644).. 694: 0000
+  DB #00,#00 
+welcome.chp(645).. 696: 0000
+  DB #00,#00 
+welcome.chp(646).. 698: 0000
+  DB #00,#00 
+welcome.chp(647).. 69A: 0000
+  DB #00,#00 
+welcome.chp(648).. 69C: 0000
+  DB #00,#00 
+welcome.chp(649).. 69E: 0000
+  DB #00,#00 
+welcome.chp(650).. 6A0: 0000
+  DB #00,#00 
+welcome.chp(651).. 6A2: 0000
+  DB #00,#00 
+welcome.chp(652).. 6A4: 0000
+  DB #00,#00 
+welcome.chp(653).. 6A6: 0000
+  DB #00,#00 
+welcome.chp(654).. 6A8: 0000
+  DB #00,#00 
+welcome.chp(656).. 6AA: 0000
+  DB #00,#00 
+welcome.chp(657).. 6AC: 0000
+  DB #00,#00 
+welcome.chp(658).. 6AE: 0000
+  DB #00,#00 
+welcome.chp(659).. 6B0: 0000
+  DB #00,#00 
+welcome.chp(660).. 6B2: 0000
+  DB #00,#00 
+welcome.chp(661).. 6B4: 0000
+  DB #00,#00 
+welcome.chp(662).. 6B6: 0000
+  DB #00,#00 
+welcome.chp(663).. 6B8: 0000
+  DB #00,#00 
+welcome.chp(664).. 6BA: 0000
+  DB #00,#00 
+welcome.chp(665).. 6BC: 0000
+  DB #00,#00 
+welcome.chp(666).. 6BE: 0000
+  DB #00,#00 
+welcome.chp(667).. 6C0: 0000
+  DB #00,#00 
+welcome.chp(668).. 6C2: 0000
+  DB #00,#00 
+welcome.chp(669).. 6C4: 0000
+  DB #00,#00 
+welcome.chp(670).. 6C6: 0000
+  DB #00,#00 
+welcome.chp(671).. 6C8: 0000
+  DB #00,#00 
+welcome.chp(673).. 6CA: 0000
+  DB #00,#00 
+welcome.chp(674).. 6CC: 0000
+  DB #00,#00 
+welcome.chp(675).. 6CE: 0000
+  DB #00,#00 
+welcome.chp(676).. 6D0: 0000
+  DB #00,#00 
+welcome.chp(677).. 6D2: 0000
+  DB #00,#00 
+welcome.chp(678).. 6D4: 0000
+  DB #00,#00 
+welcome.chp(679).. 6D6: 0000
+  DB #00,#00 
+welcome.chp(680).. 6D8: 0000
+  DB #00,#00 
+welcome.chp(681).. 6DA: 0000
+  DB #00,#00 
+welcome.chp(682).. 6DC: 0000
+  DB #00,#00 
+welcome.chp(683).. 6DE: 0000
+  DB #00,#00 
+welcome.chp(684).. 6E0: 0000
+  DB #00,#00 
+welcome.chp(685).. 6E2: 0000
+  DB #00,#00 
+welcome.chp(686).. 6E4: 0000
+  DB #00,#00 
+welcome.chp(687).. 6E6: 0000
+  DB #00,#00 
+welcome.chp(688).. 6E8: 0000
+  DB #00,#00 
+welcome.chp(690).. 6EA: 0000
+  DB #00,#00 
+welcome.chp(691).. 6EC: 0000
+  DB #00,#00 
+welcome.chp(692).. 6EE: 0000
+  DB #00,#00 
+welcome.chp(693).. 6F0: 0000
+  DB #00,#00 
+welcome.chp(694).. 6F2: 0000
+  DB #00,#00 
+welcome.chp(695).. 6F4: 0000
+  DB #00,#00 
+welcome.chp(696).. 6F6: 0000
+  DB #00,#00 
+welcome.chp(697).. 6F8: 0000
+  DB #00,#00 
+welcome.chp(698).. 6FA: 0000
+  DB #00,#00 
+welcome.chp(699).. 6FC: 0000
+  DB #00,#00 
+welcome.chp(700).. 6FE: 0000
+  DB #00,#00 
+welcome.chp(701).. 700: 0000
+  DB #00,#00 
+welcome.chp(702).. 702: 0000
+  DB #00,#00 
+welcome.chp(703).. 704: 0000
+  DB #00,#00 
+welcome.chp(704).. 706: 0000
+  DB #00,#00 
+welcome.chp(705).. 708: 0000
+  DB #00,#00 
+welcome.chp(707).. 70A: 0000
+  DB #00,#00 
+welcome.chp(708).. 70C: 0000
+  DB #00,#00 
+welcome.chp(709).. 70E: 0000
+  DB #00,#00 
+welcome.chp(710).. 710: 0000
+  DB #00,#00 
+welcome.chp(711).. 712: 0000
+  DB #00,#00 
+welcome.chp(712).. 714: 0000
+  DB #00,#00 
+welcome.chp(713).. 716: 0000
+  DB #00,#00 
+welcome.chp(714).. 718: 0000
+  DB #00,#00 
+welcome.chp(715).. 71A: 0000
+  DB #00,#00 
+welcome.chp(716).. 71C: 0000
+  DB #00,#00 
+welcome.chp(717).. 71E: 0000
+  DB #00,#00 
+welcome.chp(718).. 720: 0000
+  DB #00,#00 
+welcome.chp(719).. 722: 0000
+  DB #00,#00 
+welcome.chp(720).. 724: 0000
+  DB #00,#00 
+welcome.chp(721).. 726: 0000
+  DB #00,#00 
+welcome.chp(722).. 728: 0000
+  DB #00,#00 
+welcome.chp(724).. 72A: 0000
+  DB #00,#00 
+welcome.chp(725).. 72C: 0000
+  DB #00,#00 
+welcome.chp(726).. 72E: 0000
+  DB #00,#00 
+welcome.chp(727).. 730: 0000
+  DB #00,#00 
+welcome.chp(728).. 732: 0000
+  DB #00,#00 
+welcome.chp(729).. 734: 0000
+  DB #00,#00 
+welcome.chp(730).. 736: 0000
+  DB #00,#00 
+welcome.chp(731).. 738: 0000
+  DB #00,#00 
+welcome.chp(732).. 73A: 0000
+  DB #00,#00 
+welcome.chp(733).. 73C: 0000
+  DB #00,#00 
+welcome.chp(734).. 73E: 0000
+  DB #00,#00 
+welcome.chp(735).. 740: 0000
+  DB #00,#00 
+welcome.chp(736).. 742: 0000
+  DB #00,#00 
+welcome.chp(737).. 744: 0000
+  DB #00,#00 
+welcome.chp(738).. 746: 0000
+  DB #00,#00 
+welcome.chp(739).. 748: 0000
+  DB #00,#00 
+welcome.chp(741).. 74A: 0000
+  DB #00,#00 
+welcome.chp(742).. 74C: 0000
+  DB #00,#00 
+welcome.chp(743).. 74E: 0000
+  DB #00,#00 
+welcome.chp(744).. 750: 0000
+  DB #00,#00 
+welcome.chp(745).. 752: 0000
+  DB #00,#00 
+welcome.chp(746).. 754: 0000
+  DB #00,#00 
+welcome.chp(747).. 756: 0000
+  DB #00,#00 
+welcome.chp(748).. 758: 0000
+  DB #00,#00 
+welcome.chp(749).. 75A: 0000
+  DB #00,#00 
+welcome.chp(750).. 75C: 0000
+  DB #00,#00 
+welcome.chp(751).. 75E: 0000
+  DB #00,#00 
+welcome.chp(752).. 760: 0000
+  DB #00,#00 
+welcome.chp(753).. 762: 0000
+  DB #00,#00 
+welcome.chp(754).. 764: 0000
+  DB #00,#00 
+welcome.chp(755).. 766: 0000
+  DB #00,#00 
+welcome.chp(756).. 768: 0000
+  DB #00,#00 
+welcome.chp(758).. 76A: 0000
+  DB #00,#00 
+welcome.chp(759).. 76C: 0000
+  DB #00,#00 
+welcome.chp(760).. 76E: 0000
+  DB #00,#00 
+welcome.chp(761).. 770: 0000
+  DB #00,#00 
+welcome.chp(762).. 772: 0000
+  DB #00,#00 
+welcome.chp(763).. 774: 0000
+  DB #00,#00 
+welcome.chp(764).. 776: 0000
+  DB #00,#00 
+welcome.chp(765).. 778: 0000
+  DB #00,#00 
+welcome.chp(766).. 77A: 0000
+  DB #00,#00 
+welcome.chp(767).. 77C: 0000
+  DB #00,#00 
+welcome.chp(768).. 77E: 0000
+  DB #00,#00 
+welcome.chp(769).. 780: 0000
+  DB #00,#00 
+welcome.chp(770).. 782: 0000
+  DB #00,#00 
+welcome.chp(771).. 784: 0000
+  DB #00,#00 
+welcome.chp(772).. 786: 0000
+  DB #00,#00 
+welcome.chp(773).. 788: 0000
+  DB #00,#00 
+welcome.chp(775).. 78A: 0000
+  DB #00,#00 
+welcome.chp(776).. 78C: 0000
+  DB #00,#00 
+welcome.chp(777).. 78E: 0000
+  DB #00,#00 
+welcome.chp(778).. 790: 0000
+  DB #00,#00 
+welcome.chp(779).. 792: 0000
+  DB #00,#00 
+welcome.chp(780).. 794: 0000
+  DB #00,#00 
+welcome.chp(781).. 796: 0000
+  DB #00,#00 
+welcome.chp(782).. 798: 0000
+  DB #00,#00 
+welcome.chp(783).. 79A: 0000
+  DB #00,#00 
+welcome.chp(784).. 79C: 0000
+  DB #00,#00 
+welcome.chp(785).. 79E: 0000
+  DB #00,#00 
+welcome.chp(786).. 7A0: 0000
+  DB #00,#00 
+welcome.chp(787).. 7A2: 0000
+  DB #00,#00 
+welcome.chp(788).. 7A4: 0000
+  DB #00,#00 
+welcome.chp(789).. 7A6: 0000
+  DB #00,#00 
+welcome.chp(790).. 7A8: 0000
+  DB #00,#00 
+welcome.chp(792).. 7AA: 0000
+  DB #00,#00 
+welcome.chp(793).. 7AC: 0000
+  DB #00,#00 
+welcome.chp(794).. 7AE: 0000
+  DB #00,#00 
+welcome.chp(795).. 7B0: 0000
+  DB #00,#00 
+welcome.chp(796).. 7B2: 0000
+  DB #00,#00 
+welcome.chp(797).. 7B4: 0000
+  DB #00,#00 
+welcome.chp(798).. 7B6: 0000
+  DB #00,#00 
+welcome.chp(799).. 7B8: 0000
+  DB #00,#00 
+welcome.chp(800).. 7BA: 0000
+  DB #00,#00 
+welcome.chp(801).. 7BC: 0000
+  DB #00,#00 
+welcome.chp(802).. 7BE: 0000
+  DB #00,#00 
+welcome.chp(803).. 7C0: 0000
+  DB #00,#00 
+welcome.chp(804).. 7C2: 0000
+  DB #00,#00 
+welcome.chp(805).. 7C4: 0000
+  DB #00,#00 
+welcome.chp(806).. 7C6: 0000
+  DB #00,#00 
+welcome.chp(807).. 7C8: 0000
+  DB #00,#00 
+welcome.chp(809).. 7CA: 0000
+  DB #00,#00 
+welcome.chp(810).. 7CC: 0000
+  DB #00,#00 
+welcome.chp(811).. 7CE: 0000
+  DB #00,#00 
+welcome.chp(812).. 7D0: 0000
+  DB #00,#00 
+welcome.chp(813).. 7D2: 0000
+  DB #00,#00 
+welcome.chp(814).. 7D4: 0000
+  DB #00,#00 
+welcome.chp(815).. 7D6: 0000
+  DB #00,#00 
+welcome.chp(816).. 7D8: 0000
+  DB #00,#00 
+welcome.chp(817).. 7DA: 0000
+  DB #00,#00 
+welcome.chp(818).. 7DC: 0000
+  DB #00,#00 
+welcome.chp(819).. 7DE: 0000
+  DB #00,#00 
+welcome.chp(820).. 7E0: 0000
+  DB #00,#00 
+welcome.chp(821).. 7E2: 0000
+  DB #00,#00 
+welcome.chp(822).. 7E4: 0000
+  DB #00,#00 
+welcome.chp(823).. 7E6: 0000
+  DB #00,#00 
+welcome.chp(824).. 7E8: 0000
+  DB #00,#00 
+welcome.chp(826).. 7EA: 0000
+  DB #00,#00 
+welcome.chp(827).. 7EC: 0000
+  DB #00,#00 
+welcome.chp(828).. 7EE: 0000
+  DB #00,#00 
+welcome.chp(829).. 7F0: 0000
+  DB #00,#00 
+welcome.chp(830).. 7F2: 0000
+  DB #00,#00 
+welcome.chp(831).. 7F4: 0000
+  DB #00,#00 
+welcome.chp(832).. 7F6: 0000
+  DB #00,#00 
+welcome.chp(833).. 7F8: 0000
+  DB #00,#00 
+welcome.chp(834).. 7FA: 0000
+  DB #00,#00 
+welcome.chp(835).. 7FC: 0000
+  DB #00,#00 
+welcome.chp(836).. 7FE: 0000
+  DB #00,#00 
+welcome.chp(837).. 800: 0000
+  DB #00,#00 
+welcome.chp(838).. 802: 0000
+  DB #00,#00 
+welcome.chp(839).. 804: 0000
+  DB #00,#00 
+welcome.chp(840).. 806: 0000
+  DB #00,#00 
+welcome.chp(841).. 808: 0000
+  DB #00,#00 
+welcome.chp(843).. 80A: 0000
+  DB #00,#00 
+welcome.chp(844).. 80C: 0000
+  DB #00,#00 
+welcome.chp(845).. 80E: 0000
+  DB #00,#00 
+welcome.chp(846).. 810: 0000
+  DB #00,#00 
+welcome.chp(847).. 812: 0000
+  DB #00,#00 
+welcome.chp(848).. 814: 0000
+  DB #00,#00 
+welcome.chp(849).. 816: 0000
+  DB #00,#00 
+welcome.chp(850).. 818: 0000
+  DB #00,#00 
+welcome.chp(851).. 81A: 0000
+  DB #00,#00 
+welcome.chp(852).. 81C: 0000
+  DB #00,#00 
+welcome.chp(853).. 81E: 0000
+  DB #00,#00 
+welcome.chp(854).. 820: 0000
+  DB #00,#00 
+welcome.chp(855).. 822: 0000
+  DB #00,#00 
+welcome.chp(856).. 824: 0000
+  DB #00,#00 
+welcome.chp(857).. 826: 0000
+  DB #00,#00 
+welcome.chp(858).. 828: 0000
+  DB #00,#00 
+welcome.chp(860).. 82A: 0000
+  DB #00,#00 
+welcome.chp(861).. 82C: 0000
+  DB #00,#00 
+welcome.chp(862).. 82E: 0000
+  DB #00,#00 
+welcome.chp(863).. 830: 0000
+  DB #00,#00 
+welcome.chp(864).. 832: 0000
+  DB #00,#00 
+welcome.chp(865).. 834: 0000
+  DB #00,#00 
+welcome.chp(866).. 836: 0000
+  DB #00,#00 
+welcome.chp(867).. 838: 0000
+  DB #00,#00 
+welcome.chp(868).. 83A: 0000
+  DB #00,#00 
+welcome.chp(869).. 83C: 0000
+  DB #00,#00 
+welcome.chp(870).. 83E: 0000
+  DB #00,#00 
+welcome.chp(871).. 840: 0000
+  DB #00,#00 
+welcome.chp(872).. 842: 0000
+  DB #00,#00 
+welcome.chp(873).. 844: 0000
+  DB #00,#00 
+welcome.chp(874).. 846: 0000
+  DB #00,#00 
+welcome.chp(875).. 848: 0000
+  DB #00,#00 
+welcome.chp(877).. 84A: 0000
+  DB #00,#00 
+welcome.chp(878).. 84C: 0000
+  DB #00,#00 
+welcome.chp(879).. 84E: 0000
+  DB #00,#00 
+welcome.chp(880).. 850: 0000
+  DB #00,#00 
+welcome.chp(881).. 852: 0000
+  DB #00,#07 
+welcome.chp(882).. 854: 0007
+  DB #00,#04 
+welcome.chp(883).. 856: 0004
+  DB #00,#07 
+welcome.chp(884).. 858: 0007
+  DB #00,#04 
+welcome.chp(885).. 85A: 0004
+  DB #00,#04 
+welcome.chp(886).. 85C: 0004
+  DB #00,#00 
+welcome.chp(887).. 85E: 0000
+  DB #00,#00 
+welcome.chp(888).. 860: 0000
+  DB #00,#00 
+welcome.chp(889).. 862: 0000
+  DB #00,#00 
+welcome.chp(890).. 864: 0000
+  DB #00,#00 
+welcome.chp(891).. 866: 0000
+  DB #00,#00 
+welcome.chp(892).. 868: 0000
+  DB #00,#00 
+welcome.chp(894).. 86A: 0000
+  DB #00,#00 
+welcome.chp(895).. 86C: 0000
+  DB #00,#00 
+welcome.chp(896).. 86E: 0000
+  DB #00,#00 
+welcome.chp(897).. 870: 0000
+  DB #00,#00 
+welcome.chp(898).. 872: 0000
+  DB #DF,#7D 
+welcome.chp(899).. 874: DF7D
+  DB #51,#41 
+welcome.chp(900).. 876: 5141
+  DB #DF,#71 
+welcome.chp(901).. 878: DF71
+  DB #12,#40 
+welcome.chp(902).. 87A: 1240
+  DB #11,#7D 
+welcome.chp(903).. 87C: 117D
+  DB #00,#00 
+welcome.chp(904).. 87E: 0000
+  DB #00,#00 
+welcome.chp(905).. 880: 0000
+  DB #00,#00 
+welcome.chp(906).. 882: 0000
+  DB #00,#00 
+welcome.chp(907).. 884: 0000
+  DB #00,#00 
+welcome.chp(908).. 886: 0000
+  DB #00,#00 
+welcome.chp(909).. 888: 0000
+  DB #00,#00 
+welcome.chp(911).. 88A: 0000
+  DB #00,#00 
+welcome.chp(912).. 88C: 0000
+  DB #00,#00 
+welcome.chp(913).. 88E: 0000
+  DB #00,#00 
+welcome.chp(914).. 890: 0000
+  DB #00,#00 
+welcome.chp(915).. 892: 0000
+  DB #F7,#C0 
+welcome.chp(916).. 894: F7C0
+  DB #04,#00 
+welcome.chp(917).. 896: 0400
+  DB #F7,#C0 
+welcome.chp(918).. 898: F7C0
+  DB #10,#40 
+welcome.chp(919).. 89A: 1040
+  DB #F7,#C0 
+welcome.chp(920).. 89C: F7C0
+  DB #00,#00 
+welcome.chp(921).. 89E: 0000
+  DB #00,#00 
+welcome.chp(922).. 8A0: 0000
+  DB #00,#00 
+welcome.chp(923).. 8A2: 0000
+  DB #00,#00 
+welcome.chp(924).. 8A4: 0000
+  DB #00,#00 
+welcome.chp(925).. 8A6: 0000
+  DB #00,#00 
+welcome.chp(926).. 8A8: 0000
+  DB #00,#00 
+welcome.chp(928).. 8AA: 0000
+  DB #00,#00 
+welcome.chp(929).. 8AC: 0000
+  DB #00,#00 
+welcome.chp(930).. 8AE: 0000
+  DB #00,#00 
+welcome.chp(931).. 8B0: 0000
+  DB #00,#00 
+welcome.chp(932).. 8B2: 0000
+  DB #FB,#EF 
+welcome.chp(933).. 8B4: FBEF
+  DB #82,#08 
+welcome.chp(934).. 8B6: 8208
+  DB #E3,#E8 
+welcome.chp(935).. 8B8: E3E8
+  DB #80,#28 
+welcome.chp(936).. 8BA: 8028
+  DB #FB,#EF 
+welcome.chp(937).. 8BC: FBEF
+  DB #00,#00 
+welcome.chp(938).. 8BE: 0000
+  DB #00,#00 
+welcome.chp(939).. 8C0: 0000
+  DB #00,#00 
+welcome.chp(940).. 8C2: 0000
+  DB #00,#00 
+welcome.chp(941).. 8C4: 0000
+  DB #00,#00 
+welcome.chp(942).. 8C6: 0000
+  DB #00,#00 
+welcome.chp(943).. 8C8: 0000
+  DB #00,#00 
+welcome.chp(945).. 8CA: 0000
+  DB #00,#00 
+welcome.chp(946).. 8CC: 0000
+  DB #00,#00 
+welcome.chp(947).. 8CE: 0000
+  DB #00,#00 
+welcome.chp(948).. 8D0: 0000
+  DB #00,#00 
+welcome.chp(949).. 8D2: 0000
+  DB #BE,#FB 
+welcome.chp(950).. 8D4: BEFB
+  DB #22,#8A 
+welcome.chp(951).. 8D6: 228A
+  DB #22,#FB 
+welcome.chp(952).. 8D8: 22FB
+  DB #3E,#82 
+welcome.chp(953).. 8DA: 3E82
+  DB #A2,#83 
+welcome.chp(954).. 8DC: A283
+  DB #00,#00 
+welcome.chp(955).. 8DE: 0000
+  DB #00,#00 
+welcome.chp(956).. 8E0: 0000
+  DB #00,#00 
+welcome.chp(957).. 8E2: 0000
+  DB #00,#00 
+welcome.chp(958).. 8E4: 0000
+  DB #00,#00 
+welcome.chp(959).. 8E6: 0000
+  DB #00,#00 
+welcome.chp(960).. 8E8: 0000
+  DB #00,#00 
+welcome.chp(962).. 8EA: 0000
+  DB #00,#00 
+welcome.chp(963).. 8EC: 0000
+  DB #00,#00 
+welcome.chp(964).. 8EE: 0000
+  DB #00,#00 
+welcome.chp(965).. 8F0: 0000
+  DB #00,#00 
+welcome.chp(966).. 8F2: 0000
+  DB #E0,#00 
+welcome.chp(967).. 8F4: E000
+  DB #00,#00 
+welcome.chp(968).. 8F6: 0000
+  DB #80,#00 
+welcome.chp(969).. 8F8: 8000
+  DB #00,#00 
+welcome.chp(970).. 8FA: 0000
+  DB #E0,#00 
+welcome.chp(971).. 8FC: E000
+  DB #00,#00 
+welcome.chp(972).. 8FE: 0000
+  DB #00,#00 
+welcome.chp(973).. 900: 0000
+  DB #00,#00 
+welcome.chp(974).. 902: 0000
+  DB #00,#00 
+welcome.chp(975).. 904: 0000
+  DB #00,#00 
+welcome.chp(976).. 906: 0000
+  DB #00,#00 
+welcome.chp(977).. 908: 0000
+  DB #00,#00 
+welcome.chp(979).. 90A: 0000
+  DB #00,#00 
+welcome.chp(980).. 90C: 0000
+  DB #00,#00 
+welcome.chp(981).. 90E: 0000
+  DB #00,#00 
+welcome.chp(982).. 910: 0000
+  DB #00,#00 
+welcome.chp(983).. 912: 0000
+  DB #00,#00 
+welcome.chp(984).. 914: 0000
+  DB #00,#00 
+welcome.chp(985).. 916: 0000
+  DB #00,#00 
+welcome.chp(986).. 918: 0000
+  DB #00,#00 
+welcome.chp(987).. 91A: 0000
+  DB #00,#00 
+welcome.chp(988).. 91C: 0000
+  DB #00,#00 
+welcome.chp(989).. 91E: 0000
+  DB #00,#00 
+welcome.chp(990).. 920: 0000
+  DB #00,#00 
+welcome.chp(991).. 922: 0000
+  DB #00,#00 
+welcome.chp(992).. 924: 0000
+  DB #00,#00 
+welcome.chp(993).. 926: 0000
+  DB #00,#00 
+welcome.chp(994).. 928: 0000
+  DB #00,#00 
+welcome.chp(996).. 92A: 0000
+  DB #00,#00 
+welcome.chp(997).. 92C: 0000
+  DB #00,#00 
+welcome.chp(998).. 92E: 0000
+  DB #00,#00 
+welcome.chp(999).. 930: 0000
+  DB #00,#00 
+welcome.chp(1000).. 932: 0000
+  DB #00,#00 
+welcome.chp(1001).. 934: 0000
+  DB #00,#00 
+welcome.chp(1002).. 936: 0000
+  DB #00,#00 
+welcome.chp(1003).. 938: 0000
+  DB #00,#00 
+welcome.chp(1004).. 93A: 0000
+  DB #00,#00 
+welcome.chp(1005).. 93C: 0000
+  DB #00,#00 
+welcome.chp(1006).. 93E: 0000
+  DB #00,#00 
+welcome.chp(1007).. 940: 0000
+  DB #00,#00 
+welcome.chp(1008).. 942: 0000
+  DB #00,#00 
+welcome.chp(1009).. 944: 0000
+  DB #00,#00 
+welcome.chp(1010).. 946: 0000
+  DB #00,#00 
+welcome.chp(1011).. 948: 0000
+  DB #00,#00 
+welcome.chp(1013).. 94A: 0000
+  DB #00,#00 
+welcome.chp(1014).. 94C: 0000
+  DB #00,#00 
+welcome.chp(1015).. 94E: 0000
+  DB #00,#00 
+welcome.chp(1016).. 950: 0000
+  DB #00,#00 
+welcome.chp(1017).. 952: 0000
+  DB #00,#00 
+welcome.chp(1018).. 954: 0000
+  DB #00,#00 
+welcome.chp(1019).. 956: 0000
+  DB #00,#00 
+welcome.chp(1020).. 958: 0000
+  DB #00,#00 
+welcome.chp(1021).. 95A: 0000
+  DB #00,#00 
+welcome.chp(1022).. 95C: 0000
+  DB #00,#00 
+welcome.chp(1023).. 95E: 0000
+  DB #00,#00 
+welcome.chp(1024).. 960: 0000
+  DB #00,#00 
+welcome.chp(1025).. 962: 0000
+  DB #00,#00 
+welcome.chp(1026).. 964: 0000
+  DB #00,#00 
+welcome.chp(1027).. 966: 0000
+  DB #00,#00 
+welcome.chp(1028).. 968: 0000
+  DB #00,#00 
+welcome.chp(1030).. 96A: 0000
+  DB #00,#00 
+welcome.chp(1031).. 96C: 0000
+  DB #00,#00 
+welcome.chp(1032).. 96E: 0000
+  DB #00,#00 
+welcome.chp(1033).. 970: 0000
+  DB #00,#00 
+welcome.chp(1034).. 972: 0000
+  DB #00,#00 
+welcome.chp(1035).. 974: 0000
+  DB #00,#00 
+welcome.chp(1036).. 976: 0000
+  DB #00,#00 
+welcome.chp(1037).. 978: 0000
+  DB #00,#00 
+welcome.chp(1038).. 97A: 0000
+  DB #00,#00 
+welcome.chp(1039).. 97C: 0000
+  DB #00,#00 
+welcome.chp(1040).. 97E: 0000
+  DB #00,#00 
+welcome.chp(1041).. 980: 0000
+  DB #00,#00 
+welcome.chp(1042).. 982: 0000
+  DB #00,#00 
+welcome.chp(1043).. 984: 0000
+  DB #00,#00 
+welcome.chp(1044).. 986: 0000
+  DB #00,#00 
+welcome.chp(1045).. 988: 0000
+  DB #00,#00 
+welcome.chp(1047).. 98A: 0000
+  DB #00,#00 
+welcome.chp(1048).. 98C: 0000
+  DB #00,#00 
+welcome.chp(1049).. 98E: 0000
+  DB #00,#00 
+welcome.chp(1050).. 990: 0000
+  DB #00,#00 
+welcome.chp(1051).. 992: 0000
+  DB #00,#00 
+welcome.chp(1052).. 994: 0000
+  DB #00,#00 
+welcome.chp(1053).. 996: 0000
+  DB #00,#00 
+welcome.chp(1054).. 998: 0000
+  DB #00,#00 
+welcome.chp(1055).. 99A: 0000
+  DB #00,#00 
+welcome.chp(1056).. 99C: 0000
+  DB #00,#00 
+welcome.chp(1057).. 99E: 0000
+  DB #00,#00 
+welcome.chp(1058).. 9A0: 0000
+  DB #00,#00 
+welcome.chp(1059).. 9A2: 0000
+  DB #00,#00 
+welcome.chp(1060).. 9A4: 0000
+  DB #00,#00 
+welcome.chp(1061).. 9A6: 0000
+  DB #00,#00 
+welcome.chp(1062).. 9A8: 0000
+  DB #00,#00 
+welcome.chp(1064).. 9AA: 0000
+  DB #00,#00 
+welcome.chp(1065).. 9AC: 0000
+  DB #00,#00 
+welcome.chp(1066).. 9AE: 0000
+  DB #00,#00 
+welcome.chp(1067).. 9B0: 0000
+  DB #00,#00 
+welcome.chp(1068).. 9B2: 0000
+  DB #00,#00 
+welcome.chp(1069).. 9B4: 0000
+  DB #00,#00 
+welcome.chp(1070).. 9B6: 0000
+  DB #00,#00 
+welcome.chp(1071).. 9B8: 0000
+  DB #00,#00 
+welcome.chp(1072).. 9BA: 0000
+  DB #00,#00 
+welcome.chp(1073).. 9BC: 0000
+  DB #00,#00 
+welcome.chp(1074).. 9BE: 0000
+  DB #00,#00 
+welcome.chp(1075).. 9C0: 0000
+  DB #00,#00 
+welcome.chp(1076).. 9C2: 0000
+  DB #00,#00 
+welcome.chp(1077).. 9C4: 0000
+  DB #00,#00 
+welcome.chp(1078).. 9C6: 0000
+  DB #00,#00 
+welcome.chp(1079).. 9C8: 0000
+  DB #00,#00 
+welcome.chp(1081).. 9CA: 0000
+  DB #00,#00 
+welcome.chp(1082).. 9CC: 0000
+  DB #00,#00 
+welcome.chp(1083).. 9CE: 0000
+  DB #00,#00 
+welcome.chp(1084).. 9D0: 0000
+  DB #00,#00 
+welcome.chp(1085).. 9D2: 0000
+  DB #00,#00 
+welcome.chp(1086).. 9D4: 0000
+  DB #00,#00 
+welcome.chp(1087).. 9D6: 0000
+  DB #00,#00 
+welcome.chp(1088).. 9D8: 0000
+  DB #00,#00 
+welcome.chp(1089).. 9DA: 0000
+  DB #00,#00 
+welcome.chp(1090).. 9DC: 0000
+  DB #00,#00 
+welcome.chp(1091).. 9DE: 0000
+  DB #00,#00 
+welcome.chp(1092).. 9E0: 0000
+  DB #00,#00 
+welcome.chp(1093).. 9E2: 0000
+  DB #00,#00 
+welcome.chp(1094).. 9E4: 0000
+  DB #00,#00 
+welcome.chp(1095).. 9E6: 0000
+  DB #00,#00 
+welcome.chp(1096).. 9E8: 0000
+  DB #00,#00 
+welcome.chp(1098).. 9EA: 0000
+  DB #00,#00 
+welcome.chp(1099).. 9EC: 0000
+  DB #00,#00 
+welcome.chp(1100).. 9EE: 0000
+  DB #00,#00 
+welcome.chp(1101).. 9F0: 0000
+  DB #00,#00 
+welcome.chp(1102).. 9F2: 0000
+  DB #00,#00 
+welcome.chp(1103).. 9F4: 0000
+  DB #00,#00 
+welcome.chp(1104).. 9F6: 0000
+  DB #00,#00 
+welcome.chp(1105).. 9F8: 0000
+  DB #00,#00 
+welcome.chp(1106).. 9FA: 0000
+  DB #00,#00 
+welcome.chp(1107).. 9FC: 0000
+  DB #00,#00 
+welcome.chp(1108).. 9FE: 0000
+  DB #00,#00 
+welcome.chp(1109).. A00: 0000
+  DB #00,#00 
+welcome.chp(1110).. A02: 0000
+  DB #00,#00 
+welcome.chp(1111).. A04: 0000
+  DB #00,#00 
+welcome.chp(1112).. A06: 0000
+  DB #00,#00 
+welcome.chp(1113).. A08: 0000
+  DB #00,#00 
+welcome.chp(1115).. A0A: 0000
+  DB #00,#00 
+welcome.chp(1116).. A0C: 0000
+  DB #00,#00 
+welcome.chp(1117).. A0E: 0000
+  DB #00,#00 
+welcome.chp(1118).. A10: 0000
+  DB #00,#00 
+welcome.chp(1119).. A12: 0000
+  DB #00,#00 
+welcome.chp(1120).. A14: 0000
+  DB #00,#00 
+welcome.chp(1121).. A16: 0000
+  DB #00,#00 
+welcome.chp(1122).. A18: 0000
+  DB #00,#00 
+welcome.chp(1123).. A1A: 0000
+  DB #00,#00 
+welcome.chp(1124).. A1C: 0000
+  DB #00,#00 
+welcome.chp(1125).. A1E: 0000
+  DB #00,#00 
+welcome.chp(1126).. A20: 0000
+  DB #00,#00 
+welcome.chp(1127).. A22: 0000
+  DB #00,#00 
+welcome.chp(1128).. A24: 0000
+  DB #00,#00 
+welcome.chp(1129).. A26: 0000
+  DB #00,#00 
+welcome.chp(1130).. A28: 0000
 
 -----   *SYMBOLS*   -----
 
-208 DRAWLOOP welcome.chp(12)
-  welcome.chp(17)
-  welcome.chp(21)
-21A ENDLOOP welcome.chp(25)
-  welcome.chp(26)
-21C SPR_LOGO_0 welcome.chp(29)
+210 DRAWFULL welcome.chp(23)
+  welcome.chp(11)
+  welcome.chp(15)
+216 DRAWLOOP welcome.chp(27)
+  welcome.chp(32)
+  welcome.chp(36)
+20E ENDLOOP welcome.chp(19)
+  welcome.chp(20)
+62A SPR_BLINK_0 welcome.chp(587)
+  welcome.chp(14)
+22A SPR_LOGO_0 welcome.chp(40)
   welcome.chp(10)
+208 START welcome.chp(13)
+  welcome.chp(17)
 
 -----   *CONDITIONS*   -----
 

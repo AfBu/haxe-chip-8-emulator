@@ -2,28 +2,39 @@
 OPTION BINARY
 ALIGN OFF
 
+; V0-V2 - scrap
 
 HIGH		; Hires Superchip mode (128x64)
 
-CLS		             ; clear screen
-LD V8,32
+CLS
 LD I,SPR_LOGO_0
+CALL DRAWFULL
 
-DRAWLOOP:
-  DRW V0,V1,0
-  ADD V0,16
-  ADD I,V8
-  SE V0,128     ; if line filled skip 
-  JP DRAWLOOP   ; draw next sprite
-  ADD V1,16
-  LD V0,0
-  SE V1,64      ; if image filled skip
-  JP DRAWLOOP   ; draw next sprite
+START:
+	LD I,SPR_BLINK_0
+	CALL DRAWFULL
 
+	JP START
 
-
-ENDLOOP:
+ENDLOOP:			 ; end loop
   JP ENDLOOP
+
+
+DRAWFULL:
+	LD V0,0
+	LD V1,0
+	LD V2,32
+	DRAWLOOP:
+		DRW V0,V1,0
+		ADD V0,16
+		ADD I,V2
+		SE V0,128     ; if line filled skip 
+		JP DRAWLOOP   ; draw next sprite
+		ADD V1,16
+		LD V0,0
+		SE V1,64      ; if image filled skip
+		JP DRAWLOOP   ; draw next sprite
+RET
 
 ; 'LOGO' IMAGE DATA
 SPR_LOGO_0
@@ -43,7 +54,7 @@ SPR_LOGO_0
   DB #50,#18
   DB #A8,#18
   DB #50,#18
-;SPR_LOGO_1
+;;SPR_LOGO_1
   DB #AA,#AA
   DB #55,#55
   DB #AA,#AA
@@ -60,7 +71,7 @@ SPR_LOGO_0
   DB #01,#81
   DB #01,#81
   DB #01,#81
-;SPR_LOGO_2
+;;SPR_LOGO_2
   DB #AA,#AA
   DB #55,#55
   DB #AA,#AA
@@ -77,7 +88,7 @@ SPR_LOGO_0
   DB #99,#81
   DB #99,#81
   DB #99,#81
-;SPR_LOGO_3
+;;SPR_LOGO_3
   DB #AA,#AA
   DB #55,#55
   DB #AA,#AA
@@ -94,7 +105,7 @@ SPR_LOGO_0
   DB #80,#18
   DB #80,#18
   DB #80,#18
-;SPR_LOGO_4
+;;SPR_LOGO_4
   DB #AA,#AA
   DB #55,#55
   DB #AA,#AA
@@ -111,7 +122,7 @@ SPR_LOGO_0
   DB #18,#01
   DB #18,#01
   DB #18,#01
-;SPR_LOGO_5
+;;SPR_LOGO_5
   DB #AA,#AA
   DB #55,#55
   DB #AA,#AA
@@ -128,7 +139,7 @@ SPR_LOGO_0
   DB #80,#1E
   DB #80,#19
   DB #80,#19
-;SPR_LOGO_6
+;;SPR_LOGO_6
   DB #AA,#AA
   DB #55,#55
   DB #AA,#AA
@@ -145,7 +156,7 @@ SPR_LOGO_0
   DB #07,#98
   DB #99,#98
   DB #99,#98
-;SPR_LOGO_7
+;;SPR_LOGO_7
   DB #AA,#AA
   DB #55,#55
   DB #AA,#AA
@@ -162,7 +173,7 @@ SPR_LOGO_0
   DB #18,#15
   DB #18,#0A
   DB #18,#15
-;SPR_LOGO_8
+;;SPR_LOGO_8
   DB #A8,#18
   DB #50,#18
   DB #A8,#18
@@ -179,7 +190,7 @@ SPR_LOGO_0
   DB #50,#00
   DB #A8,#00
   DB #50,#00
-;SPR_LOGO_9
+;;SPR_LOGO_9
   DB #01,#FF
   DB #01,#FF
   DB #01,#81
@@ -196,7 +207,7 @@ SPR_LOGO_0
   DB #00,#00
   DB #00,#00
   DB #00,#00
-;SPR_LOGO_10
+;;SPR_LOGO_10
   DB #99,#FF
   DB #99,#FE
   DB #99,#80
@@ -213,7 +224,7 @@ SPR_LOGO_0
   DB #00,#00
   DB #00,#00
   DB #00,#00
-;SPR_LOGO_11
+;;SPR_LOGO_11
   DB #00,#0F
   DB #00,#07
   DB #1F,#98
@@ -230,7 +241,7 @@ SPR_LOGO_0
   DB #00,#00
   DB #00,#00
   DB #00,#00
-;SPR_LOGO_12
+;;SPR_LOGO_12
   DB #F0,#01
   DB #E0,#01
   DB #18,#01
@@ -247,7 +258,7 @@ SPR_LOGO_0
   DB #00,#00
   DB #00,#00
   DB #00,#00
-;SPR_LOGO_13
+;;SPR_LOGO_13
   DB #FF,#18
   DB #FE,#18
   DB #80,#18
@@ -264,7 +275,7 @@ SPR_LOGO_0
   DB #00,#00
   DB #00,#00
   DB #00,#00
-;SPR_LOGO_14
+;;SPR_LOGO_14
   DB #61,#98
   DB #61,#98
   DB #01,#98
@@ -281,7 +292,7 @@ SPR_LOGO_0
   DB #00,#00
   DB #00,#00
   DB #00,#00
-;SPR_LOGO_15
+;;SPR_LOGO_15
   DB #18,#0A
   DB #18,#15
   DB #18,#0A
@@ -298,7 +309,7 @@ SPR_LOGO_0
   DB #00,#15
   DB #00,#0A
   DB #00,#15
-;SPR_LOGO_16
+;;SPR_LOGO_16
   DB #A8,#00
   DB #50,#00
   DB #A8,#00
@@ -315,7 +326,7 @@ SPR_LOGO_0
   DB #50,#00
   DB #A8,#00
   DB #50,#00
-;SPR_LOGO_17
+;;SPR_LOGO_17
   DB #00,#00
   DB #00,#00
   DB #00,#00
@@ -332,7 +343,7 @@ SPR_LOGO_0
   DB #00,#00
   DB #00,#00
   DB #00,#00
-;SPR_LOGO_18
+;;SPR_LOGO_18
   DB #00,#00
   DB #00,#00
   DB #00,#00
@@ -349,7 +360,7 @@ SPR_LOGO_0
   DB #00,#00
   DB #00,#00
   DB #00,#00
-;SPR_LOGO_19
+;;SPR_LOGO_19
   DB #00,#00
   DB #00,#00
   DB #00,#00
@@ -366,7 +377,7 @@ SPR_LOGO_0
   DB #00,#00
   DB #00,#00
   DB #00,#00
-;SPR_LOGO_20
+;;SPR_LOGO_20
   DB #00,#00
   DB #00,#00
   DB #00,#00
@@ -383,7 +394,7 @@ SPR_LOGO_0
   DB #00,#00
   DB #00,#00
   DB #00,#00
-;SPR_LOGO_21
+;;SPR_LOGO_21
   DB #00,#00
   DB #00,#00
   DB #00,#00
@@ -400,7 +411,7 @@ SPR_LOGO_0
   DB #00,#00
   DB #00,#00
   DB #00,#00
-;SPR_LOGO_22
+;;SPR_LOGO_22
   DB #00,#00
   DB #00,#00
   DB #00,#00
@@ -417,7 +428,7 @@ SPR_LOGO_0
   DB #00,#00
   DB #00,#00
   DB #00,#00
-;SPR_LOGO_23
+;;SPR_LOGO_23
   DB #00,#0A
   DB #00,#15
   DB #00,#0A
@@ -434,7 +445,7 @@ SPR_LOGO_0
   DB #00,#15
   DB #00,#0A
   DB #00,#15
-;SPR_LOGO_24
+;;SPR_LOGO_24
   DB #A8,#00
   DB #50,#00
   DB #A8,#00
@@ -451,7 +462,7 @@ SPR_LOGO_0
   DB #55,#55
   DB #AA,#AA
   DB #55,#55
-;SPR_LOGO_25
+;;SPR_LOGO_25
   DB #00,#00
   DB #00,#00
   DB #00,#00
@@ -468,7 +479,7 @@ SPR_LOGO_0
   DB #55,#55
   DB #AA,#AA
   DB #55,#55
-;SPR_LOGO_26
+;;SPR_LOGO_26
   DB #00,#00
   DB #00,#00
   DB #00,#00
@@ -485,7 +496,7 @@ SPR_LOGO_0
   DB #55,#55
   DB #AA,#AA
   DB #55,#55
-;SPR_LOGO_27
+;;SPR_LOGO_27
   DB #00,#00
   DB #00,#00
   DB #00,#00
@@ -502,7 +513,7 @@ SPR_LOGO_0
   DB #55,#55
   DB #AA,#AA
   DB #55,#55
-;SPR_LOGO_28
+;;SPR_LOGO_28
   DB #00,#00
   DB #00,#00
   DB #00,#00
@@ -519,7 +530,7 @@ SPR_LOGO_0
   DB #55,#55
   DB #AA,#AA
   DB #55,#55
-;SPR_LOGO_29
+;;SPR_LOGO_29
   DB #00,#00
   DB #00,#00
   DB #00,#00
@@ -536,7 +547,7 @@ SPR_LOGO_0
   DB #55,#55
   DB #AA,#AA
   DB #55,#55
-;SPR_LOGO_30
+;;SPR_LOGO_30
   DB #00,#00
   DB #00,#00
   DB #00,#00
@@ -553,7 +564,7 @@ SPR_LOGO_0
   DB #55,#55
   DB #AA,#AA
   DB #55,#55
-;SPR_LOGO_31
+;;SPR_LOGO_31
   DB #00,#0A
   DB #00,#15
   DB #00,#0A
@@ -570,3 +581,550 @@ SPR_LOGO_0
   DB #55,#55
   DB #AA,#AA
   DB #55,#55
+
+
+; 'BLINK' IMAGE DATA
+SPR_BLINK_0
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_1
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_2
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_3
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_4
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_5
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_6
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_7
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_8
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_9
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_10
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_11
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_12
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_13
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_14
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_15
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_16
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_17
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#07
+  DB #00,#04
+  DB #00,#07
+  DB #00,#04
+  DB #00,#04
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_18
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #DF,#7D
+  DB #51,#41
+  DB #DF,#71
+  DB #12,#40
+  DB #11,#7D
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_19
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #F7,#C0
+  DB #04,#00
+  DB #F7,#C0
+  DB #10,#40
+  DB #F7,#C0
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_20
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #FB,#EF
+  DB #82,#08
+  DB #E3,#E8
+  DB #80,#28
+  DB #FB,#EF
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_21
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #BE,#FB
+  DB #22,#8A
+  DB #22,#FB
+  DB #3E,#82
+  DB #A2,#83
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_22
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #E0,#00
+  DB #00,#00
+  DB #80,#00
+  DB #00,#00
+  DB #E0,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_23
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_24
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_25
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_26
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_27
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_28
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_29
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_30
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+;SPR_BLINK_31
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
+  DB #00,#00
