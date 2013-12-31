@@ -26,6 +26,7 @@ class Television extends Sprite
 	public var display:Bitmap;
 	public var cpu:Chip8;
 	public var debugTextField:TextField;
+	public var statusTextField:TextField;
 	public var loader:Menu;
 	public var roms:Array<String>;
 	public var currentRom:String = "";
@@ -101,15 +102,26 @@ class Television extends Sprite
 		debugTextField.width = 200;
 		debugTextField.visible = false;
 		
+		statusTextField = new TextField();
+		statusTextField.defaultTextFormat = new TextFormat(font.fontName, 14, 0xFFFFFF, true, false, false, "", "", TextFormatAlign.LEFT, 0, 0, 0, 0);
+		statusTextField.embedFonts = true;
+		statusTextField.selectable = false;
+		statusTextField.height = 200;
+		statusTextField.width = 200;
+		statusTextField.x = 877 - 180;
+		statusTextField.y = 350;
+		statusTextField.visible = true;
+		
 		addChild(display);
 		addChild(overlay);
+		addChild(statusTextField);
 		addChild(loader);
 		addChild(keymap);
 		addChild(credits);
 		addChild(debugTextField);
 		
 		cpu = new Chip8();
-		//cpu.sleep = 0.1;
+		cpu.freq = 500;
 		cpu.load("");
 		cpu.start();
 		
@@ -150,8 +162,11 @@ class Television extends Sprite
 		{
 			var debugLines:Array<String> = new Array<String>();
 			debugLines.push("MODE:     " + (cpu.extendedMode ? "ext" : "bas"));
+			debugLines.push("FEQ:      " + cpu.sps.value);
 			debugLines.push("PC:       " + cpu.pc);
 			debugLines.push("I:        " + cpu.I);
+			debugLines.push("sp:       " + cpu.sp);
+			debugLines.push("Delay:    " + cpu.delay_timer);
 			debugLines.push("Opcode: 0x" + StringTools.hex(cpu.opcode));
 			for (vi in 0...cpu.V.length) 
 			{
@@ -159,11 +174,32 @@ class Television extends Sprite
 			}
 			debugTextField.text = debugLines.join("\n");
 		}
+
+		if (statusTextField.visible)
+		{
+			var debugLines:Array<String> = new Array<String>();
+			debugLines.push("MODE:     " + (cpu.extendedMode ? "ext" : "bas"));
+			debugLines.push("FEQ:      " + cpu.sps.value + " (" + cpu.freq + ")");
+			debugLines.push("PC:       " + cpu.pc);
+			debugLines.push("I:        " + cpu.I);
+			debugLines.push("Opcode: 0x" + StringTools.hex(cpu.opcode));
+			statusTextField.text = debugLines.join("\n");
+		}
 	}
 	
 	function updateKey(e:KeyboardEvent)
 	{
-		//trace(e.keyCode, e.keyLocation, e.charCode);
+		if (e.keyCode == 75 && e.charCode == 43 && e.type == KeyboardEvent.KEY_UP) {
+			cpu.freq += 100;
+		}
+		if (e.keyCode == 77 && e.charCode == 45 && e.type == KeyboardEvent.KEY_UP) {
+			cpu.freq -= 100;
+		}
+		
+		if (e.keyCode == 32 && e.charCode == 32 && e.type == KeyboardEvent.KEY_UP) {
+			cpu.step();
+			cpu.timers();
+		}
 		
 		if (e.keyCode == 27 && e.type == KeyboardEvent.KEY_UP) {
 			if (keymap.visible) { keymap.visible = false; return; }

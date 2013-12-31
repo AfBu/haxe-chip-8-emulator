@@ -18,19 +18,15 @@ using cpp.vm.Thread;
 class Chip8
 {
 	// emulator
-	var thread:Thread;
-	var active:Bool = false;
-	var drawFlag:Bool = true;
-	public var starts:Int = 0;
-	var lastTime:Float = 0;
-	public var sps:Int = 0;
-	var spc:Int = 0;
-	var spsTime:Float = 0;
+	public var active:Bool = false;
+	public var drawFlag:Bool = true;
+	public var sps:PerSecondCounter;
 	public var beep:Bool = false;
-	public var sleep:Float = 0.001;
-	var timerTime:Float = 0;
 	public var pause:Bool = false;
 	public var extendedMode:Bool = false;
+	public var freq:UInt = 1000;
+	public var debug:Bool = false;
+	public var compatibility:Bool = false;
 	
 	// cpu
 	public var opcode:UInt = 0;
@@ -49,6 +45,7 @@ class Chip8
 	
 	public function new() 
 	{
+		sps = new PerSecondCounter();
 		memory = new ByteArray();
 		V = new ByteArray();
 		gfx = new ByteArray();
@@ -60,8 +57,10 @@ class Chip8
 		stack = new Array<UInt>();
 		for (i in 0...16) stack.push(0);
 		rpl = new Array<UInt>();
-		for (i in 0...8) rpl.push(0);
+		for (i in 0...16) rpl.push(0);
 		reset();
+		Thread.create(loop);
+		Thread.create(timersLoop);
 	}
 	
 	public function reset()
@@ -90,7 +89,7 @@ class Chip8
 		sp = 0;
 		for (i in 0...16) stack[i] = 0;
 		// rpl
-		for (i in 0...8) rpl[i] = 0;
+		for (i in 0...16) rpl[i] = 0;
 	}
 	
 	public function load(filename:String, fontsetFilename:String = "FONTSET")
@@ -151,7 +150,7 @@ class Chip8
 	{
 		if (!active) {
 			active = true;
-			thread = Thread.create(step);
+			//thread = Thread.create(loop);
 		}
 	}
 	
@@ -160,10 +159,30 @@ class Chip8
 		active = false;
 	}
 	
-	public function step()
+	public function loop()
 	{
-		starts++;
-		timerTime = spsTime = lastTime = Timer.stamp();
+		var lastTime:Float = Timer.stamp();
+		var time:Float = 0;
+		var cumTime:Float = 0;
+		var addRun:Int = 0;
+		
+		while (true) {
+			if (debug) pause = true;
+			
+			if (active && !pause) {
+				time = Timer.stamp() - lastTime;
+				lastTime = Timer.stamp();
+				for (i in 0...Math.round(time * freq)) {
+					step();
+				}
+			}
+			if (pause) {
+				lastTime = Timer.stamp();
+			}
+			Sys.sleep(0.01);
+		}
+		/*starts++;
+		var stamp:Float = timerTime = lastTime = Timer.stamp();
 		
 		while (active) {
 			if (pause) {
@@ -171,40 +190,43 @@ class Chip8
 				continue;
 			}
 			
-			// fetch opcode
-			opcode = memory[pc] << 8 | memory[pc + 1];
-		
-			// decode and execute opcode
-			execute();
+			step();
 			
-			// timers
-			var stamp:Float = Timer.stamp();
-			
-			if (stamp - timerTime > 0.016) {
-				timerTime = stamp;
-				if(delay_timer > 0)
-					--delay_timer;
-					
-				if (sound_timer > 0)
-				{
-					if (sound_timer == 1) beep = true;
-					--sound_timer;
-				}
+			Sys.sleep(0.1);
+		}*/
+	}
+	
+	public function timersLoop()
+	{
+		while (true) {
+			if (active && !pause) {
+				timers();
 			}
-			
-			// step counter
-			spc++;
-			if (stamp - spsTime > 1) {
-				spsTime = stamp;
-				sps = spc;
-				spc = 0;
-			}
-			
-			// delay
-			//var time:Float = stamp - lastTime;
-			//lastTime = stamp;
-			Sys.sleep(sleep);
+			Sys.sleep(0.016);
 		}
+	}
+	
+	public function timers()
+	{
+		if(delay_timer > 0)
+			--delay_timer;
+			
+		if (sound_timer > 0)
+		{
+			if (sound_timer == 1) beep = true;
+			--sound_timer;
+		}
+	}
+	
+	public function step()
+	{
+		// fetch opcode
+		opcode = memory[pc] << 8 | memory[pc + 1];
+		
+		// decode and execute opcode
+		execute();
+		
+		sps.tick();
 	}
 	
 	public function execute()
@@ -234,6 +256,10 @@ class Chip8
 				pc = stack[sp];
 				pc += 2;
 				return;
+			}
+			case 0x00FA: // [EMU] turn on compatibility mode (so SAVE and RESTORE leave I register unchanged)
+			{
+				compatibility = true;
 			}
 			case 0x00FB: // [SUPER] scroll screen 4 pixels right
 			{
@@ -266,7 +292,7 @@ class Chip8
 					var x:UInt = 0;
 					while (x <= sw - 1) {
 						var i:UInt = y * sw + x;
-						if (x < sw - 3) {
+						if (x < sw - 4) {
 							(extendedMode ? xgfx : gfx)[i] = (extendedMode ? xgfx : gfx)[i + 4];
 						} else {
 							(extendedMode ? xgfx : gfx)[i] = 0;
@@ -296,7 +322,7 @@ class Chip8
 			case 0x00FD: // [SUPER] Exit CHIP interpreter
 			{
 				// to-do
-				// just stay here forever
+				active = false;
 				return;
 			}
 		}
@@ -501,11 +527,13 @@ class Chip8
 					case 0x0000: // [SUPER] DXY0: Draws extended sprite at screen location rx,ry
 					{
 						drawExtendedSprite();
+						pc += 2;
 						return;
 					}
 					default: // DXYN: Display n-byte sprite starting at memory location I at (Vx, Vy), set VF = collision.
 					{
 						drawSprite();
+						pc += 2;
 						return;
 					}
 				}
@@ -599,7 +627,7 @@ class Chip8
 					
 					case 0x0030: // [SUPER] FX30: Set I = location of sprite for digit Vx. Font height is 10
 					{
-						I = V[(opcode & 0x0F00) >> 8] * 0xA;
+						I = 80 + V[(opcode & 0x0F00) >> 8] * 0xA;
 						pc += 2;
 						return;
 					}
@@ -619,7 +647,8 @@ class Chip8
 						for (i in 0...((opcode & 0x0F00) >> 8) + 1) {
 							memory[I + i] = V[i];
 						}
-						I += V[(opcode & 0x0F00) >> 8] + 1;
+						if (compatibility)
+							I += ((opcode & 0x0F00) >> 8) + 1;
 						pc += 2;
 						return;
 					}
@@ -629,23 +658,28 @@ class Chip8
 						for (i in 0...((opcode & 0x0F00) >> 8) + 1) {
 							V[i] = memory[I + i];
 						}
-						I += ((opcode & 0x0F00) >> 8) + 1;
+						if (compatibility)
+							I += ((opcode & 0x0F00) >> 8) + 1;
 						pc += 2;
 						return;
 					}
 					
-					case 0x0075: // FX75: Store V0..VX in RPL user flags (X <= 7)
+					case 0x0075: // [SUPER] FX75: Store V0..VX in RPL user flags (X <= 7)
 					{
 						for (i in 0...((opcode & 0x0F00) >> 8) + 1) {
-							if (i <= 7) rpl[i] = V[i];
+							rpl[i] = V[i];
 						}
+						pc += 2;
+						return;
 					}
 					
-					case 0x0085: // FX85: Read V0..VX from RPL user flags (X <= 7) 
+					case 0x0085: // [SUPER] FX85: Read V0..VX from RPL user flags (X <= 7) 
 					{
 						for (i in 0...((opcode & 0x0F00) >> 8) + 1) {
-							if (i <= 7) V[i] = rpl[i];
+							V[i] = rpl[i];
 						}
+						pc += 2;
+						return;
 					}
 				}
 			}
@@ -657,16 +691,16 @@ class Chip8
 	public function drawExtendedSprite() // sprite is always 16x16
 	{
 		if (!extendedMode) {
-			pc += 2;
+			drawSprite();
 			return;
 		}
 		
 		var x:UInt = V[(opcode & 0x0F00) >> 8];
 		var y:UInt = V[(opcode & 0x00F0) >> 4];
 		var pixel:UInt = 0;
-
+		
 		// check position overflow
-		while (x > 128) x -= 64;
+		while (x > 128) x -= 128;
 		while (y > 64) y -= 64;
 		
 		V[0xF] = 0;
@@ -677,7 +711,7 @@ class Chip8
 			{
 				if((pixel & (0x80 >> xline)) != 0)
 				{
-					if(xgfx[(x + xline + ((y + yline) * 128))] == 1)
+					if(xgfx[(x + xline + ((y + yline) * 128))] != 0)
 					{
 						V[0xF] = 1;                                    
 					}
@@ -689,17 +723,16 @@ class Chip8
 			{
 				if((pixel & (0x80 >> xline)) != 0)
 				{
-					if(xgfx[((x + 8) + xline + ((y + yline) * 128))] == 1)
+					if(xgfx[((x + 8) + xline + ((y + yline) * 128))] != 0)
 					{
-						V[0xF] = 1;                                    
+						V[0xF] = 1;
 					}
 					xgfx[(x + 8) + xline + ((y + yline) * 128)] = xgfx[(x + 8) + xline + ((y + yline) * 128)] ^ 1;
 				}
 			}
 		}
-		
+		//V[0xF] = 0;
 		drawFlag = true;			
-		pc += 2;
 	}
 	
 	public function drawSprite()
@@ -710,6 +743,9 @@ class Chip8
 		var pixel:UInt = 0;
 		var sw:UInt = (extendedMode ? 128 : 64);
 		var sh:UInt = (extendedMode ? 64 : 32);
+		
+		// fall back from ext mode
+		if (height == 0) height = 16;
 		
 		// check position overflow
 		while (x > sw) x -= sw;
@@ -723,7 +759,7 @@ class Chip8
 			{
 				if((pixel & (0x80 >> xline)) != 0)
 				{
-					if((extendedMode ? xgfx : gfx)[(x + xline + ((y + yline) * sw))] == 1)
+					if((extendedMode ? xgfx : gfx)[(x + xline + ((y + yline) * sw))] != 0)
 					{
 						V[0xF] = 1;                                    
 					}
@@ -731,9 +767,8 @@ class Chip8
 				}
 			}
 		}
-					
+		//V[0xF] = 0;
 		drawFlag = true;			
-		pc += 2;
 	}
 	
 	public function endOfProgram()
@@ -744,8 +779,9 @@ class Chip8
 	
 	public function unknownOpcode()
 	{
-		trace("Unknown opcode: " + StringTools.hex(opcode));
-		pc += 2;
+		trace("Unknown opcode: " + StringTools.hex(opcode), pc, I);
+		active = false;
+		//pc += 2;
 	}
 	
 }
