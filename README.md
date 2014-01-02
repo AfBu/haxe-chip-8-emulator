@@ -19,6 +19,8 @@ Features
 - [x] custom fontset as separate data file, ability to load custom fontset/bios
 - [x] beep using wave sound file
 - [ ] original beeper simulation (generated beep sound with ability to sound infinitely)
+- [ ] categorised ROM loading (games, programs, tests, custom)
+- [ ] per-rom settings loading (speed, help note, controls maybe)
 - [ ] other targets support (Android/HTML5/Flash)
 - [ ] binary downloads for all platforms (Windows/Linux/OSX/Flash/Android)
 
