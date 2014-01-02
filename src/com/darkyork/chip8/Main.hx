@@ -10,7 +10,9 @@ import flash.Lib;
 import flash.media.Sound;
 import flash.text.TextField;
 import openfl.Assets;
+#if (cpp || neko)
 import sys.FileSystem;
+#end
 
 /**
  * ...

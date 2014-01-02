@@ -1,2 +1,4 @@
 bin/
 Thumbs.db
+*.hash
+web.config

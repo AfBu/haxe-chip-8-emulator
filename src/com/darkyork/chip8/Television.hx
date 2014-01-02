@@ -13,7 +13,9 @@ import flash.text.TextFormat;
 import flash.text.TextFormatAlign;
 import haxe.Timer;
 import openfl.Assets;
+#if (cpp || neko)
 import sys.FileSystem;
+#end
 
 /**
  * ...
@@ -64,10 +66,10 @@ class Television extends Sprite
 		var font:Font = Assets.getFont("data/NovaMono.ttf");
 
 		loader = new Menu();
-		loader.visible = false;
+		loader.visible = true;
 		var ldTextFormat:TextFormat = new TextFormat(font.fontName, 14, 0xEEEEEE, false, false, false, "", "", TextFormatAlign.CENTER, 0, 0, 0, 0);
 		var ldTextFormatHover:TextFormat = new TextFormat(font.fontName, 14, 0xFFFFFF, true, false, false, "", "", TextFormatAlign.CENTER, 0, 0, 0, 0);
-		roms = FileSystem.readDirectory("./roms/");
+		roms = getRoms();
 		var ri:Int = 0;
 		for (r in roms) {
 			var rtf:TextField = new TextField();
@@ -100,7 +102,7 @@ class Television extends Sprite
 		debugTextField.selectable = false;
 		debugTextField.height = 600;
 		debugTextField.width = 200;
-		debugTextField.visible = false;
+		debugTextField.visible = true;
 		
 		statusTextField = new TextField();
 		statusTextField.defaultTextFormat = new TextFormat(font.fontName, 14, 0xFFFFFF, true, false, false, "", "", TextFormatAlign.LEFT, 0, 0, 0, 0);
@@ -128,6 +130,19 @@ class Television extends Sprite
 		addEventListener(Event.ENTER_FRAME, update);
 		stage.addEventListener(KeyboardEvent.KEY_DOWN, updateKey);
 		stage.addEventListener(KeyboardEvent.KEY_UP, updateKey);
+	}
+	
+	public function getRoms():Array<String>
+	{
+#if (cpp || neko)
+		return FileSystem.readDirectory("./roms/");
+#else
+		var res:Array<String> = new Array<String>();
+		res.push("ALIEN-S");
+		res.push("PONG3");
+		res.push("U-BOAT");
+		return res;
+#end
 	}
 	
 	public function update(e:Event)
@@ -200,6 +215,7 @@ class Television extends Sprite
 			cpu.freq -= 100;
 		}
 		
+#if (cpp || neko)
 		if (e.keyCode == 32 && e.charCode == 32 && e.type == KeyboardEvent.KEY_UP) {
 			cpu.step();
 			cpu.timers();
@@ -211,6 +227,14 @@ class Television extends Sprite
 			loader.visible = !loader.visible;
 			return;
 		}
+#else
+		if (e.keyCode == 32 && e.charCode == 32 && e.type == KeyboardEvent.KEY_UP) {
+			if (keymap.visible) { keymap.visible = false; return; }
+			if (credits.visible) { credits.visible = false; return; }
+			loader.visible = !loader.visible;
+			return;
+		}
+#end
 		if (e.charCode == 0 && e.keyCode == 89 && e.type == KeyboardEvent.KEY_UP) {
 			cpu.load(currentRom);
 			cpu.start();

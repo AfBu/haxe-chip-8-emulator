@@ -1,13 +1,16 @@
 package com.darkyork.chip8;
 import flash.display.BitmapData;
+import flash.events.Event;
 import flash.geom.Rectangle;
+import flash.Lib;
 import flash.utils.ByteArray;
 import haxe.Timer;
 import openfl.Assets;
 
 #if neko
 using neko.vm.Thread;
-#else
+#end
+#if cpp
 using cpp.vm.Thread;
 #end
 
@@ -27,6 +30,14 @@ class Chip8
 	public var freq:UInt = 1000;
 	public var debug:Bool = false;
 	public var compatibility:Bool = false;
+	
+#if (cpp || neko)
+#else
+	var loopLastTime:Float = 0;
+	var loopTime:Float = 0;
+	var loopCumTime:Float = 0;
+	var loopAddRun:Int = 0;
+#end
 	
 	// cpu
 	public var opcode:UInt = 0;
@@ -59,15 +70,41 @@ class Chip8
 		rpl = new Array<UInt>();
 		for (i in 0...16) rpl.push(0);
 		reset();
+		
+#if (cpp || neko)		
 		Thread.create(loop);
 		Thread.create(timersLoop);
+#else
+		Lib.current.stage.addEventListener(Event.ENTER_FRAME, enterFrame);
+		loopLastTime = Timer.stamp();
+#end
 	}
+	
+#if (cpp || neko)
+#else
+	public function enterFrame(e:Event)
+	{
+		if (active && !pause) {
+			loopTime = Timer.stamp() - loopLastTime;
+			loopLastTime = Timer.stamp();
+			for (i in 0...Math.round(loopTime * freq)) {
+				step();
+			}
+			timers();
+		}
+		if (pause) {
+			loopLastTime = Timer.stamp();
+		}
+	}
+#end
 	
 	public function reset()
 	{
 		active = false;
 		extendedMode = false;
+#if (cpp || neko)		
 		Sys.sleep(0.1); // wait for emulation to stop
+#end
 		opcode = 0x0000;
 		// reset index and program counter
 		I = 0;
@@ -179,7 +216,9 @@ class Chip8
 			if (pause) {
 				lastTime = Timer.stamp();
 			}
+#if (cpp || neko)
 			Sys.sleep(0.01);
+#end
 		}
 		/*starts++;
 		var stamp:Float = timerTime = lastTime = Timer.stamp();
@@ -202,7 +241,9 @@ class Chip8
 			if (active && !pause) {
 				timers();
 			}
+#if (cpp || neko)
 			Sys.sleep(0.016);
+#end
 		}
 	}
 	
@@ -231,7 +272,8 @@ class Chip8
 	
 	public function execute()
 	{
-		if (pc >= memory.length) 
+		var ml:UInt = memory.length;
+		if (pc >= ml) 
 		{
 			endOfProgram();
 			return;
@@ -337,7 +379,7 @@ class Chip8
 					{
 						var n:UInt = opcode & 0x000F;
 						var ni:UInt = n * (extendedMode ? 128 : 64);
-						var i = ((extendedMode ? 128 * 64 : 64 * 32) - 1);
+						var i:UInt = ((extendedMode ? 128 * 64 : 64 * 32) - 1);
 						while (i >= 0)
 						{
 							if (i >= ni) {
