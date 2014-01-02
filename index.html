@@ -18,11 +18,24 @@
 
   </head>
   <body>
+      <!-- Google analytics -->
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-10557303-6', 'afbu.github.io');
+        ga('send', 'pageview');
+
+      </script>
+      <!-- End of Google analytics -->
       <div id="header">
         <nav>
           <li class="fork"><a href="https://github.com/AfBu/haxe-chip-8-emulator">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/AfBu/haxe-chip-8-emulator/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/AfBu/haxe-chip-8-emulator/tarball/master">TAR</a></li>
+          <!--<li class="downloads"><a href="https://github.com/AfBu/haxe-chip-8-emulator/tarball/master">Mac</a></li>
+          <li class="downloads"><a href="https://github.com/AfBu/haxe-chip-8-emulator/tarball/master">Linux</a></li>-->
+          <li class="downloads"><a href="https://www.dropbox.com/s/seymwvplm40vq28/chip8emu.zip">Windows</a></li>
           <li class="title">DOWNLOADS</li>
         </nav>
       </div><!-- end header -->
@@ -39,40 +52,71 @@
         </div>
 
         <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <a name="about-chip-8-emu" class="anchor" href="#about-chip-8-emu"><span class="octicon octicon-link"></span></a>About CHIP-8 EMU</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+        <p>CHIP-8 EMU is (hopefuly successful) attempt to create emulator of famous "virtual computer" in HAXE/OpenFL language. My aim is to create user friendly emulator with embeded roms of games and programs, which is easy to pickup and play.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+        <p>If you are new to emulation world like I am, you can use my code as bootstrap or inspiration for your own project. Just please note that I am not professional HAXE developer nor I am emulator creation veteran.</p>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+        <p><strong>Current stable version: 1.0</strong></p>
+        <p>Current dev version: 1.0.9</p>
+        
+        <p>Features:</p>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+        <pre><code>- old school TV-like experience
+- many public domain ROMs included
+- easy ROM loading
+- keymap screen
+- all chip-8 opcodes implemented
+- basic debug information (press F12)
+- running speed is 500 steps per second
+- keyboard mapped to 1234/qwer/asdf/zxcv keys
+- compiles only for NEKO/CPP
+- original fontset as separate data file, ability to load custom fontset/bios
+- beep using wave sound file</code></pre>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+        <p>Future plans:</p>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+        <pre><code>- other targets support (Android/HTML5/Flash)
+- Super CHIP-8 instructions implementation</code></pre>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+        <p>So what are you waiting for? Go download emulator binary, play, get code, fork, hack, enjoy!</p>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+        <img src="./images/emuscreen.png" width="100%" alt="CHIP-8 EMU" />
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+        <h3>
+        <a name="about-chip-8" class="anchor" href="#about-chip-8"><span class="octicon octicon-link"></span></a>About CHIP 8</h3>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+        <p>CHIP-8 is an interpreted programming language, originaly developed by Joseph Weisbecker in mid-70th, later expanded by Erik Bryntse to it's SuperCHIP-8 variant, enabling developer to easily scroll screen, use higher resolution and added few more other useful opcodes.</p>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+        <p>(S)CHIP-8 have very limited resources to work with, only 3584 bytes of memory (ROM/RAM combined), 16 registers 1 byte each, 2 byte memory pointer, 64x32 (128x64 for SCHIP) b&w graphics, single tone beeper, 1 bit (60Hz) delay timer, 16 keys input and &lt;40 opcodes for instructions. Even with such limited resources developers were able to create fun little games and programs, that are worth playing even today.</p>
+
+        <p>Because CHIP-8 has so little resources, it's ofter first choice of emulator noobies like me. It's easy to implement cpu core and handle graphics, it's small instruction set and slow cpu cycle (100-2000Hz) make it easy to emulate it even on obscure platforms with very good performance.
+
+        <h3>
+        <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Author and Resources</h3>
+
+        <p>I am Petr Kratina (<a href="https://github.com/AfBu">@AfBu</a> of GitHub) - developer from Czech Republic, have own little company called <a href="http://darkyork.com/">Dark York</a>. You can reach me on <a href="https://twitter.com/petrkratina">Twitter</a> or e-mail: <span id="mm"></span>.
+        </p>
+
+        <p>Resources used:</p>
+
+        <ul>
+          <li><a href="http://www.multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/">Laurence Muller's awesome guide to CHIP-8 emulation</a>
+          <li><a href="http://devernay.free.fr/hacks/chip8/C8TECH10.HTM">Thomas P. Greene's CHIP-8 specification</a>
+          <li><a href="http://chip8.sourceforge.net/chip8-1.1.pdf">[PDF] Peter Miller's CHIP-8 Reference Manual</a>
+          <li><a href="https://github.com/AfBu/haxe-chip-8-emulator/wiki/(Super)CHIP-8-Secrets">(Super)CHIP-8-Secrets - little article I wrote about WTF? moments from CHIP-8 emulator development</a>
+        </ul>
+
       </section>
 
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
+    <script>
+    var mo = document.getElementById('mm');
+    var md = atob(atob('Y0dWMGNpNXJjbUYwYVc1aA')) + atob('QA') +atob(atob('WjIxaGFXd3VZMjl0'));
+    mo.innerHTML = "<a href=\""+atob('bWFpbHRv')+":"+md+"\">"+md+"</a>";
+    </script>
   </body>
 </html>
