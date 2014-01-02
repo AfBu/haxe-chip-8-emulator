@@ -132,11 +132,15 @@ class Television extends Sprite
 	
 	public function update(e:Event)
 	{
-		if (startLoader > 0) {
+		if (!cpu.active && !loader.visible) {
+			loader.visible = true;
+		}
+		
+		/*if (startLoader > 0) {
 			if (loader.visible) startLoader = 0;
 			startLoader -= Timer.stamp();
 			if (startLoader <= 0) loader.visible = true;
-		}
+		}*/
 		
 		if (loader.visible && !cpu.pause) {
 			cpu.pause = true;
