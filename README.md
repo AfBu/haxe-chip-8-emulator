@@ -1,5 +1,5 @@
-haxe-chip-8-emulator
-====================
+CHIP-8 EMU
+==========
 
 (Super)CHIP 8 Emulator written in HAXE/OpenFL
 
